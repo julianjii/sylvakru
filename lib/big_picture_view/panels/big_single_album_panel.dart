@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
@@ -11,7 +9,6 @@ import 'package:sylvakru/base/data/artist_album.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
 import 'package:sylvakru/base/services/color_manager.dart';
 import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/common_utils.dart';
 import 'package:sylvakru/base/utils/media_query.dart';
 import 'package:sylvakru/base/utils/metadata_utils.dart';
@@ -25,91 +22,28 @@ import 'package:sylvakru/l10n/generated/app_localizations.dart';
 
 class BigSingleAlbumPanel extends StatefulWidget {
   final Album album;
-  final Color baseColor;
-  const BigSingleAlbumPanel({
-    super.key,
-    required this.album,
-    required this.baseColor,
-  });
+  const BigSingleAlbumPanel({super.key, required this.album});
 
   @override
   State<StatefulWidget> createState() => _BigSingleAlbumPanelState();
 }
 
 class _BigSingleAlbumPanelState extends State<BigSingleAlbumPanel> {
-  late final bool useCurrentSongForBgTmp;
-  late final MyPicture? backgroundPictureTmp;
-
   List<MyAudioMetadata> currentSongList = [];
-
-  late Color baseColor;
 
   final _scrollController = ScrollController();
 
-  void updateSongList() async {
-    baseColor = await computeColor(widget.album.picture);
-    colorManager.updateBigPictureRelatedColors(widget.album.picture);
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
   @override
   void initState() {
-    useCurrentSongForBgTmp = useCurrentSongForBg;
-    backgroundPictureTmp = backgroundPicture;
-    useCurrentSongForBg = false;
-
-    baseColor = widget.baseColor;
-
     currentSongList = widget.album.songList;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      colorManager.updateBigPictureRelatedColors(widget.album.picture);
-    });
-
     super.initState();
   }
 
   @override
-  void dispose() {
-    useCurrentSongForBg = useCurrentSongForBgTmp;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      colorManager.updateBigPictureRelatedColors(
-        useCurrentSongForBg
-            ? currentSongNotifier.value?.picture
-            : backgroundPictureTmp,
-      );
-    });
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final appWidth = MediaQuery.widthOf(context);
-    final appHeight = MediaQuery.heightOf(context);
-
     return Stack(
       fit: .expand,
       children: [
-        if (mainPageThemeNotifier.value == .vivid) ...[
-          CoverArtWidget(picture: widget.album.picture, color: baseColor),
-          RepaintBoundary(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: appWidth * 0.03,
-                sigmaY: appHeight * 0.03,
-              ),
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 500),
-                curve: Curves.easeInOutCubic,
-                color: baseColor.withAlpha(180),
-              ),
-            ),
-          ),
-        ],
-
         Scaffold(
           backgroundColor: panelColor.value,
           extendBodyBehindAppBar: true,

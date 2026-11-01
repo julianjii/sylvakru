@@ -9,7 +9,6 @@ import 'package:sylvakru/base/utils/path.dart';
 import 'package:sylvakru/base/services/logger.dart';
 import 'package:sylvakru/base/services/webdav_client.dart';
 import 'package:sylvakru/base/widgets/manage_music_folders.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
 import 'package:sylvakru/base/data/library.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
 import 'package:path/path.dart';
@@ -144,7 +143,6 @@ class Folder {
 
     canModify = true;
     changeNotifier.value++;
-    layersManager.updateBackground();
   }
 
   Future<void> _saveSongIdList() async {
@@ -160,7 +158,6 @@ class Folder {
 
   Future<void> update() async {
     changeNotifier.value++;
-    layersManager.updateBackground();
     await _saveSongIdList();
   }
 

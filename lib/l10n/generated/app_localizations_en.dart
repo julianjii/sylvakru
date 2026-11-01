@@ -380,13 +380,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get vividMode => 'Vivid Mode';
 
   @override
+  String get autoMode => 'Auto';
+
+  @override
   String get lightMode => 'Light Mode';
 
   @override
   String get darkMode => 'Dark Mode';
-
-  @override
-  String get customMode => 'Custom Mode';
 
   @override
   String get local => 'Local';

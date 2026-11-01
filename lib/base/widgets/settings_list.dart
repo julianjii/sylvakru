@@ -629,11 +629,6 @@ class _SettingsListState extends State<SettingsList> {
     );
   }
 
-  void _updateMainPageTheme() {
-    setting.save();
-    colorManager.updateMainPageColors();
-  }
-
   void _updateLyricsPageTheme() {
     setting.save();
     colorManager.updateLyricsPageColors();
@@ -655,7 +650,6 @@ class _SettingsListState extends State<SettingsList> {
       leading: ImageIcon(themeImage, size: iconSize),
       title: Text(l10n.theme),
       onTap: () async {
-        mainPageThemeNotifier.addListener(_updateMainPageTheme);
         lyricsPageThemeNotifier.addListener(_updateLyricsPageTheme);
         await showAnimationDialog(
           context: context,
@@ -683,45 +677,32 @@ class _SettingsListState extends State<SettingsList> {
                     slivers: [
                       sliverBox(
                         ValueListenableBuilder(
-                          valueListenable: mainPageThemeNotifier,
+                          valueListenable: mainPageThemeModeNotifier,
                           builder: (context, value, child) {
                             final l10n = AppLocalizations.of(context);
+                            Widget item(String label, ThemeType mode) {
+                              return ListTile(
+                                title: Text(label),
+                                onTap: () {
+                                  mainPageThemeModeNotifier.value = mode;
+                                  applyMainPageTheme();
+                                  setting.save();
+                                },
+                                trailing: value == mode
+                                    ? Icon(Icons.check)
+                                    : null,
+                              );
+                            }
+
                             return Column(
                               children: [
                                 Text(
                                   l10n.mainPageTheme,
                                   style: .new(fontSize: 18, fontWeight: .bold),
                                 ),
-                                ListTile(
-                                  title: Text(l10n.vividMode),
-                                  onTap: () {
-                                    mainPageThemeNotifier.value = .vivid;
-                                    updateHoverFocusColor();
-                                  },
-                                  trailing: value == .vivid
-                                      ? Icon(Icons.check)
-                                      : SizedBox.shrink(),
-                                ),
-                                ListTile(
-                                  title: Text(l10n.lightMode),
-                                  onTap: () {
-                                    mainPageThemeNotifier.value = .light;
-                                    updateHoverFocusColor();
-                                  },
-                                  trailing: value == .light
-                                      ? Icon(Icons.check)
-                                      : null,
-                                ),
-                                ListTile(
-                                  title: Text(l10n.darkMode),
-                                  onTap: () {
-                                    mainPageThemeNotifier.value = .dark;
-                                    updateHoverFocusColor();
-                                  },
-                                  trailing: value == .dark
-                                      ? Icon(Icons.check)
-                                      : null,
-                                ),
+                                item(l10n.autoMode, .auto),
+                                item(l10n.lightMode, .light),
+                                item(l10n.darkMode, .dark),
                               ],
                             );
                           },
@@ -777,7 +758,6 @@ class _SettingsListState extends State<SettingsList> {
             },
           ),
         );
-        mainPageThemeNotifier.removeListener(_updateMainPageTheme);
         lyricsPageThemeNotifier.removeListener(_updateLyricsPageTheme);
       },
     );

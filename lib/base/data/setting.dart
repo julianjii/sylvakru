@@ -81,10 +81,12 @@ class Setting {
 
     fontFamilyNotifier.value = json['fontFamily'] as String?;
 
-    mainPageThemeNotifier.value = ThemeType.values.firstWhere(
-      (e) => e.name == json['mainPageTheme'],
-      orElse: () => ThemeType.vivid,
-    );
+    // 旧版本的 vivid / custom 都属于跟系统走的时代，统一迁移到 auto
+    mainPageThemeModeNotifier.value = switch (json['mainPageTheme']) {
+      'light' => ThemeType.light,
+      'dark' => ThemeType.dark,
+      _ => ThemeType.auto,
+    };
 
     updateHoverFocusColor();
 
@@ -100,8 +102,7 @@ class Setting {
     exitOnCloseNotifier.value =
         json['exitOnClose'] as bool? ?? exitOnCloseNotifier.value;
 
-    mixWithOtherAppsNotifier.value =
-        json['mixWithOtherApps'] as bool? ?? true;
+    mixWithOtherAppsNotifier.value = json['mixWithOtherApps'] as bool? ?? true;
 
     autoRotateNotifier.value = json['autoRotate'] as bool? ?? true;
 
@@ -133,7 +134,7 @@ class Setting {
 
         'fontFamily': fontFamilyNotifier.value,
 
-        'mainPageTheme': mainPageThemeNotifier.value.name,
+        'mainPageTheme': mainPageThemeModeNotifier.value.name,
         'lyricsPageTheme': lyricsPageThemeNotifier.value.name,
 
         'lyricsFontSizeOffset': lyricsFontSizeOffsetNotifier.value,

@@ -812,6 +812,12 @@ abstract class AppLocalizations {
   /// **'Vivid Mode'**
   String get vividMode;
 
+  /// No description provided for @autoMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get autoMode;
+
   /// No description provided for @lightMode.
   ///
   /// In en, this message translates to:
@@ -823,12 +829,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark Mode'**
   String get darkMode;
-
-  /// No description provided for @customMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Custom Mode'**
-  String get customMode;
 
   /// No description provided for @local.
   ///

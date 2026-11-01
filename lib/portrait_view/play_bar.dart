@@ -7,7 +7,6 @@ import 'package:sylvakru/base/services/interaction.dart';
 import 'package:sylvakru/base/widgets/cover_art_widget.dart';
 import 'package:sylvakru/base/widgets/play_queue_sheet.dart';
 import 'package:sylvakru/base/utils/dynamic_lyrics_page_route.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
 import 'package:sylvakru/layer/lyrics_page_layer.dart';
 import 'package:sylvakru/base/utils/metadata_utils.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -23,10 +22,7 @@ class PlayBar extends StatelessWidget {
         if (currentSong == null) return const SizedBox.shrink();
 
         return ListenableBuilder(
-          listenable: Listenable.merge([
-            layersManager.backgroundChangeNotifier,
-            glassColor.valueNotifier,
-          ]),
+          listenable: glassColor.valueNotifier,
           builder: (context, child) {
             return GlassContainer(
               height: 50,

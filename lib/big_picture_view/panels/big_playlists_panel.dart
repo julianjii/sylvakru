@@ -1,6 +1,5 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/zoom_page_route.dart';
 import 'package:sylvakru/big_picture_view/panels/big_collection_list_panel.dart';
 import 'package:sylvakru/big_picture_view/panels/big_single_playlist_panel.dart';
@@ -26,18 +25,14 @@ class _BigPlaylistsPanelState extends BigCollectionListPanelState {
     textList = list.map((e) => e.name).toList();
     onTapList = list
         .map(
-          (e) => () async {
-            final baseColor = await computeColor(e.picture);
+          (e) => () {
             if (!mounted) {
               return;
             }
             Navigator.of(context).push(
               ZoomPageRoute(
                 builder: (context) {
-                  return BigSinglePlaylistPanel(
-                    playlist: e,
-                    baseColor: baseColor,
-                  );
+                  return BigSinglePlaylistPanel(playlist: e);
                 },
               ),
             );

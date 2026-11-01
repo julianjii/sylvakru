@@ -85,7 +85,7 @@ class _WindowDragAreaState extends State<WindowDragArea> {
 class WindowControls extends StatelessWidget {
   const WindowControls({super.key, this.color});
 
-  /// 图标颜色，默认用在线页自己的次级前景色（vivid 主题下全局图标色是黑的，
+  /// 图标颜色，默认用在线页自己的次级前景色（浅色主题下全局图标色是黑的，
   /// 压在在线页的深色底上看不见）。
   final Color? color;
 

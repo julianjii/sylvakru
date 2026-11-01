@@ -13,7 +13,6 @@ import 'package:sylvakru/base/data/loader.dart';
 import 'package:sylvakru/base/data/playlist.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
 import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/metadata_utils.dart';
 import 'package:sylvakru/base/utils/zoom_page_route.dart';
 import 'package:sylvakru/base/widgets/cover_art_widget.dart';
@@ -365,7 +364,6 @@ Future<T?> showAnimationDialog<T>({
                         opacity: animation,
                         child: ListenableBuilder(
                           listenable: Listenable.merge([
-                            layersManager.backgroundChangeNotifier,
                             currentSongNotifier,
                             pageBackgroundColor.valueNotifier,
                             panelColor.valueNotifier,
@@ -484,8 +482,11 @@ void showContextMenu(
                   ),
                   child: ListenableBuilder(
                     listenable: Listenable.merge([
-                      layersManager.backgroundChangeNotifier,
                       currentSongNotifier,
+                      menuColor.valueNotifier,
+                      textColor.valueNotifier,
+                      iconColor.valueNotifier,
+                      dividerColor.valueNotifier,
                     ]),
                     builder: (context, value) {
                       return Material(
@@ -1204,7 +1205,6 @@ void goToAlbum(MyAudioMetadata song, {BuildContext? context}) async {
 
   if (viewModeNotifier.value == .bigPicture) {
     showCenterLoading();
-    final baseColor = await computeColor(album.picture);
     if (!context!.mounted) {
       return;
     }
@@ -1213,7 +1213,7 @@ void goToAlbum(MyAudioMetadata song, {BuildContext? context}) async {
     Navigator.of(context).push(
       ZoomPageRoute(
         builder: (context) {
-          return BigSingleAlbumPanel(album: album!, baseColor: baseColor);
+          return BigSingleAlbumPanel(album: album!);
         },
       ),
     );

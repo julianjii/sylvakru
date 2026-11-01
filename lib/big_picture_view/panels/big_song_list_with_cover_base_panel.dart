@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
@@ -12,7 +10,6 @@ import 'package:sylvakru/base/data/playlist.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
 import 'package:sylvakru/base/services/color_manager.dart';
 import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/common_utils.dart';
 import 'package:sylvakru/base/utils/media_query.dart';
 import 'package:sylvakru/base/utils/metadata_utils.dart';
@@ -26,9 +23,7 @@ import 'package:sylvakru/base/widgets/selectable_song_list_page.dart';
 import 'package:sylvakru/l10n/generated/app_localizations.dart';
 
 abstract class BigSongListWithCoverBasePanel extends StatefulWidget {
-  final Color baseColor;
-
-  const BigSongListWithCoverBasePanel({super.key, required this.baseColor});
+  const BigSongListWithCoverBasePanel({super.key});
 }
 
 abstract class BigSongListWithCoverBasePanelState<
@@ -37,8 +32,6 @@ abstract class BigSongListWithCoverBasePanelState<
     extends State<T> {
   late final String title;
   List<MyAudioMetadata> songList = [];
-
-  late Color baseColor;
 
   final _scrollController = ScrollController();
 
@@ -51,9 +44,7 @@ abstract class BigSongListWithCoverBasePanelState<
 
   final songListChangeNotifer = ValueNotifier(0);
 
-  void updateSongList() async {
-    baseColor = await computeColor(getFirstSong(songList)?.picture);
-    colorManager.updateBigPictureRelatedColors(getFirstSong(songList)?.picture);
+  void updateSongList() {
     for (var e in songList) {
       isSelectedNotifierMap.putIfAbsent(e, () => ValueNotifier(false));
     }
@@ -67,28 +58,14 @@ abstract class BigSongListWithCoverBasePanelState<
 
   @override
   void initState() {
-    useCurrentSongForBg = false;
-    baseColor = widget.baseColor;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      colorManager.updateBigPictureRelatedColors(
-        getFirstSong(songList)?.picture,
-      );
-      for (var e in songList) {
-        isSelectedNotifierMap.putIfAbsent(e, () => ValueNotifier(false));
-      }
-    });
+    for (var e in songList) {
+      isSelectedNotifierMap.putIfAbsent(e, () => ValueNotifier(false));
+    }
     super.initState();
   }
 
   @override
   void dispose() {
-    useCurrentSongForBg = true;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      colorManager.updateBigPictureRelatedColors(
-        currentSongNotifier.value?.picture,
-      );
-    });
     _scrollController.dispose();
     super.dispose();
   }
@@ -96,32 +73,11 @@ abstract class BigSongListWithCoverBasePanelState<
   @override
   Widget build(BuildContext context) {
     final panelWidth = MediaQuery.widthOf(context);
-    final panelHeight = MediaQuery.heightOf(context);
     final l10n = AppLocalizations.of(context);
     final horizontalPadding = isTooNarrow(context) ? 20.0 : 40.0;
     return Stack(
       fit: .expand,
       children: [
-        if (mainPageThemeNotifier.value == .vivid) ...[
-          CoverArtWidget(
-            picture: getFirstSong(songList)?.picture,
-            color: baseColor,
-          ),
-          RepaintBoundary(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: panelWidth * 0.03,
-                sigmaY: panelHeight * 0.03,
-              ),
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 500),
-                curve: Curves.easeInOutCubic,
-                color: baseColor.withAlpha(180),
-              ),
-            ),
-          ),
-        ],
-
         Scaffold(
           backgroundColor: panelColor.value,
           extendBodyBehindAppBar: true,

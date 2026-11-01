@@ -17,9 +17,14 @@ final globalNavigatorKey = GlobalKey<NavigatorState>();
 /// Corner radius applied to the lyrics page while it is being dragged down.
 const double dragCornerRadius = 12;
 
-enum ThemeType { vivid, light, dark, custom }
+enum ThemeType { vivid, light, dark, auto }
 
-final mainPageThemeNotifier = ValueNotifier(ThemeType.vivid);
+/// 主页面主题的用户选择：auto 跟随系统亮度，light / dark 锁定。
+final mainPageThemeModeNotifier = ValueNotifier(ThemeType.auto);
+
+/// 主页面实际生效的主题，只会是 light / dark —— 渲染和配色一律读这个。
+final mainPageThemeNotifier = ValueNotifier(ThemeType.light);
+
 final lyricsPageThemeNotifier = ValueNotifier(ThemeType.vivid);
 
 final ValueNotifier<Locale?> localeNotifier = ValueNotifier(null);

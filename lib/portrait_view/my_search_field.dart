@@ -1,5 +1,4 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
 import 'package:sylvakru/base/services/color_manager.dart';
 import 'package:sylvakru/base/services/keyboard.dart';
 
@@ -10,14 +9,11 @@ class MySearchField extends StatefulWidget {
 
   final void Function()? onSearchTextChanged;
 
-  final bool useCurrentSong;
-
   const MySearchField({
     super.key,
     required this.hintText,
     required this.textController,
     this.onSearchTextChanged,
-    this.useCurrentSong = true,
   });
 
   @override
@@ -65,7 +61,8 @@ class _MySearchFieldState extends State<MySearchField> {
               height: 30,
               child: ListenableBuilder(
                 listenable: Listenable.merge([
-                  widget.useCurrentSong ? currentSongNotifier : null,
+                  searchFieldColor.valueNotifier,
+                  textColor.valueNotifier,
                 ]),
                 builder: (context, _) {
                   return TextField(
@@ -91,12 +88,7 @@ class _MySearchFieldState extends State<MySearchField> {
                         padding: EdgeInsets.zero,
                       ),
                       filled: true,
-                      fillColor: colorManager
-                          .getSpecificMainPageSearchFieldColorForm(
-                            widget.useCurrentSong
-                                ? currentSongNotifier.value?.picture
-                                : backgroundPicture,
-                          ),
+                      fillColor: searchFieldColor.value,
                       contentPadding: EdgeInsets.zero,
                       isDense: true,
                       border: OutlineInputBorder(

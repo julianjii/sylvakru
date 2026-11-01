@@ -314,7 +314,6 @@ class _SongListState extends State<SongList> {
           listenable: Listenable.merge([
             picture?.changeNotifier,
             mainPageThemeNotifier,
-            layersManager.backgroundChangeNotifier,
           ]),
           builder: (_, _) {
             final coverArt = CoverArtWidget(
@@ -322,9 +321,7 @@ class _SongListState extends State<SongList> {
               borderRadius: size / 10,
               picture: picture,
               elevation: 5,
-              color: colorManager.getSpecificMainPageCoverArtBaseColorForm(
-                picture,
-              ), // keep stable color
+              color: colorManager.getSpecificMainPageCoverArtBaseColor(),
             );
 
             return widget.isRoot

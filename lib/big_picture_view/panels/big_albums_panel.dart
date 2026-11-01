@@ -1,7 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sylvakru/base/data/artist_album.dart';
 import 'package:sylvakru/base/data/setting.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/zoom_page_route.dart';
 import 'package:sylvakru/big_picture_view/panels/big_collection_list_panel.dart';
 import 'package:sylvakru/big_picture_view/panels/big_single_album_panel.dart';
@@ -34,19 +33,16 @@ class _BigAlbumsPanelState extends BigCollectionListPanelState {
     textList = list.map((e) => e.name).toList();
     onTapList = list
         .map(
-          (e) => () async {
-            final baseColor = await computeColor(e.picture);
+          (e) => () {
             if (mounted) {
               Navigator.of(context).push(
                 ZoomPageRoute(
                   builder: (context) {
-                    return BigSingleAlbumPanel(album: e, baseColor: baseColor);
+                    return BigSingleAlbumPanel(album: e);
                   },
                 ),
               );
             }
-
-            return;
           },
         )
         .toList();

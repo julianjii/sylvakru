@@ -380,13 +380,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get vividMode => '生动模式';
 
   @override
+  String get autoMode => '自动';
+
+  @override
   String get lightMode => '浅色模式';
 
   @override
   String get darkMode => '深色模式';
-
-  @override
-  String get customMode => '自定义模式';
 
   @override
   String get local => '本地';

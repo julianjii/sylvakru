@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
@@ -11,7 +9,6 @@ import 'package:sylvakru/base/data/artist_album.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
 import 'package:sylvakru/base/services/color_manager.dart';
 import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/common_utils.dart';
 import 'package:sylvakru/base/utils/media_query.dart';
 import 'package:sylvakru/base/utils/metadata_utils.dart';
@@ -33,8 +30,6 @@ class BigSingleArtistPanel extends StatefulWidget {
 }
 
 class _BigSingleArtistPanelState extends State<BigSingleArtistPanel> {
-  late final bool useCurrentSongForBgTmp;
-  late final MyPicture? backgroundPictureTmp;
   final _scrollController = ScrollController();
 
   void update() {
@@ -44,33 +39,10 @@ class _BigSingleArtistPanelState extends State<BigSingleArtistPanel> {
   }
 
   @override
-  void initState() {
-    useCurrentSongForBgTmp = useCurrentSongForBg;
-    backgroundPictureTmp = backgroundPicture;
-    useCurrentSongForBg = true;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      colorManager.updateBigPictureRelatedColors(
-        currentSongNotifier.value?.picture,
-      );
-    });
-
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    useCurrentSongForBg = useCurrentSongForBgTmp;
     if (isStreamSource) {
       widget.artist.changeNotifier.removeListener(update);
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      colorManager.updateBigPictureRelatedColors(
-        useCurrentSongForBg
-            ? currentSongNotifier.value?.picture
-            : backgroundPictureTmp,
-      );
-    });
     _scrollController.dispose();
     super.dispose();
   }
@@ -78,41 +50,10 @@ class _BigSingleArtistPanelState extends State<BigSingleArtistPanel> {
   @override
   Widget build(BuildContext context) {
     final panelWidth = MediaQuery.widthOf(context);
-    final panelHeight = MediaQuery.heightOf(context);
     final l10n = AppLocalizations.of(context);
     return Stack(
       fit: .expand,
       children: [
-        if (mainPageThemeNotifier.value == .vivid) ...[
-          ValueListenableBuilder(
-            valueListenable: currentSongNotifier,
-            builder: (context, value, child) {
-              return CoverArtWidget(
-                picture: value?.picture,
-                color: currentCoverArtColor,
-              );
-            },
-          ),
-          ValueListenableBuilder(
-            valueListenable: currentSongNotifier,
-            builder: (context, value, child) {
-              return RepaintBoundary(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: panelWidth * 0.03,
-                    sigmaY: panelHeight * 0.03,
-                  ),
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeInOutCubic,
-                    color: currentCoverArtColor.withAlpha(180),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-
         Scaffold(
           backgroundColor: panelColor.value,
           extendBodyBehindAppBar: true,

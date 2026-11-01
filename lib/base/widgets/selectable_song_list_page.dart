@@ -60,116 +60,107 @@ class SelectableSongListPage extends StatelessWidget {
   Widget content(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Container(
-      color: backgroundCoverArtColor,
-      child: Scaffold(
-        backgroundColor: pageBackgroundColor.value,
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          scrolledUnderElevation: 0,
-          systemOverlayStyle: immersiveWideLayoutNotifier.value
-              ? mainPageThemeNotifier.value == .dark
-                    ? .light
-                    : .dark
-              : null,
-        ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  ValueListenableBuilder(
-                    valueListenable: allSelected,
-                    builder: (context, value, child) {
-                      return Checkbox(
-                        value: value,
-                        activeColor: iconColor.value,
-                        onChanged: (value) {
-                          for (final song in songList) {
-                            isSelectedNotifierMap[song]!.value = value!;
-                          }
-                          selectedNumNotifier.value = value!
-                              ? songList.length
-                              : 0;
-                        },
-                        shape: const CircleBorder(),
-                        side: BorderSide(color: iconColor.value.withAlpha(128)),
-                      );
-                    },
-                  ),
-                  Text(l10n.selectAll, style: TextStyle(fontSize: 16)),
-                  Spacer(),
-                  Transform.translate(
-                    offset: Offset(0, -2),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
+    return Scaffold(
+      backgroundColor: pageBackgroundColor.value,
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+        systemOverlayStyle: immersiveWideLayoutNotifier.value
+            ? mainPageThemeNotifier.value == .dark
+                  ? .light
+                  : .dark
+            : null,
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                ValueListenableBuilder(
+                  valueListenable: allSelected,
+                  builder: (context, value, child) {
+                    return Checkbox(
+                      value: value,
+                      activeColor: iconColor.value,
+                      onChanged: (value) {
+                        for (final song in songList) {
+                          isSelectedNotifierMap[song]!.value = value!;
+                        }
+                        selectedNumNotifier.value = value!
+                            ? songList.length
+                            : 0;
                       },
-                      child: Text(
-                        l10n.complete,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                ],
-              ),
-              Expanded(
-                child: ReorderableListView.builder(
-                  buildDefaultDragHandles: false,
-                  onReorderItem: (oldIndex, newIndex) {
-                    if (isLibrary) {
-                      final item = library.songList.removeAt(oldIndex);
-                      library.songList.insert(newIndex, item);
-                      library.update();
-                    } else if (folder != null) {
-                      final item = folder!.songList.removeAt(oldIndex);
-                      folder!.songList.insert(newIndex, item);
-                      folder!.update();
-                    } else {
-                      final item = playlist!.songList.removeAt(oldIndex);
-                      playlist!.songList.insert(newIndex, item);
-                      playlist!.update();
-                    }
-                  },
-                  onReorderStart: (_) {
-                    tryVibrate();
-                  },
-                  onReorderEnd: (_) {
-                    tryVibrate();
-                  },
-                  proxyDecorator:
-                      (Widget child, int index, Animation<double> animation) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: child,
-                        );
-                      },
-                  itemCount: songList.length,
-                  itemBuilder: (_, index) {
-                    return MediaQuery.removePadding(
-                      key: ValueKey(songList[index]),
-                      context: context,
-                      removeLeft: true, // for mobile
-                      removeRight: true,
-                      child: SelectableSongListTile(
-                        index: index,
-                        source: songList,
-                        isSelected: isSelectedNotifierMap[songList[index]]!,
-                        selectedNumNotifier: selectedNumNotifier,
-                        reorderable: reorderable,
-                        isFrequently: isFrequently,
-                      ),
+                      shape: const CircleBorder(),
+                      side: BorderSide(color: iconColor.value.withAlpha(128)),
                     );
                   },
                 ),
+                Text(l10n.selectAll, style: TextStyle(fontSize: 16)),
+                Spacer(),
+                Transform.translate(
+                  offset: Offset(0, -2),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(l10n.complete, style: TextStyle(fontSize: 16)),
+                  ),
+                ),
+                SizedBox(width: 20),
+              ],
+            ),
+            Expanded(
+              child: ReorderableListView.builder(
+                buildDefaultDragHandles: false,
+                onReorderItem: (oldIndex, newIndex) {
+                  if (isLibrary) {
+                    final item = library.songList.removeAt(oldIndex);
+                    library.songList.insert(newIndex, item);
+                    library.update();
+                  } else if (folder != null) {
+                    final item = folder!.songList.removeAt(oldIndex);
+                    folder!.songList.insert(newIndex, item);
+                    folder!.update();
+                  } else {
+                    final item = playlist!.songList.removeAt(oldIndex);
+                    playlist!.songList.insert(newIndex, item);
+                    playlist!.update();
+                  }
+                },
+                onReorderStart: (_) {
+                  tryVibrate();
+                },
+                onReorderEnd: (_) {
+                  tryVibrate();
+                },
+                proxyDecorator:
+                    (Widget child, int index, Animation<double> animation) {
+                      return Material(color: Colors.transparent, child: child);
+                    },
+                itemCount: songList.length,
+                itemBuilder: (_, index) {
+                  return MediaQuery.removePadding(
+                    key: ValueKey(songList[index]),
+                    context: context,
+                    removeLeft: true, // for mobile
+                    removeRight: true,
+                    child: SelectableSongListTile(
+                      index: index,
+                      source: songList,
+                      isSelected: isSelectedNotifierMap[songList[index]]!,
+                      selectedNumNotifier: selectedNumNotifier,
+                      reorderable: reorderable,
+                      isFrequently: isFrequently,
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        bottomNavigationBar: bottomButtons(l10n),
       ),
+      bottomNavigationBar: bottomButtons(l10n),
     );
   }
 

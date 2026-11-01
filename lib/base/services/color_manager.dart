@@ -1,22 +1,57 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/contrast_color_generator.dart';
 import 'package:sylvakru/layer/lyrics_page_layer.dart';
 
 final colorManager = ColorManager();
 
-MyPicture? backgroundPicture;
-Color backgroundCoverArtColor = Colors.grey;
 Color currentCoverArtColor = Colors.grey;
-
-bool useCurrentSongForBg = true;
 
 ContrastColorTextTheme contrastColorTheme = ContrastColorGenerator.generate(
   currentCoverArtColor,
 );
 
 final lightHoverFocusColorNotifier = ValueNotifier(false);
+
+/// auto 取系统亮度，light / dark 直接锁定。
+ThemeType resolveMainPageTheme(ThemeType mode, Brightness platformBrightness) {
+  return switch (mode) {
+    .light => .light,
+    .dark => .dark,
+    _ => platformBrightness == .dark ? .dark : .light,
+  };
+}
+
+/// 把当前模式解析进 [mainPageThemeNotifier]，生效值变化会自动重算主页面配色。
+void applyMainPageTheme() {
+  mainPageThemeNotifier.value = resolveMainPageTheme(
+    mainPageThemeModeNotifier.value,
+    WidgetsBinding.instance.platformDispatcher.platformBrightness,
+  );
+}
+
+void _onMainPageThemeChanged() {
+  colorManager.updateMainPageColors();
+  updateHoverFocusColor();
+}
+
+class _SystemBrightnessObserver with WidgetsBindingObserver {
+  @override
+  void didChangePlatformBrightness() {
+    if (mainPageThemeModeNotifier.value == .auto) {
+      applyMainPageTheme();
+    }
+  }
+}
+
+final _systemBrightnessObserver = _SystemBrightnessObserver();
+
+/// 启动时调用一次：解析初始主题，并跟随系统亮度 / 生效值变化更新配色。
+void initMainPageTheme() {
+  applyMainPageTheme();
+  mainPageThemeNotifier.addListener(_onMainPageThemeChanged);
+  WidgetsBinding.instance.addObserver(_systemBrightnessObserver);
+}
 
 void updateHoverFocusColor() {
   if ((displayLyricsPage && lyricsPageThemeNotifier.value == .vivid) ||
@@ -33,111 +68,81 @@ void updateHoverFocusColor() {
 }
 
 final MyColor pageBackgroundColor = MyColor(
-  vividModeValue: Color.fromARGB(100, 245, 245, 245),
   lightModeValue: Colors.grey.shade100,
   darkModeValue: Color.fromARGB(255, 50, 50, 50),
 );
 
 final MyColor iconColor = MyColor(
-  vividModeValue: Colors.black,
   lightModeValue: Colors.black,
   darkModeValue: Colors.grey.shade400,
 );
 
 final MyColor textColor = MyColor(
-  vividModeValue: Colors.grey.shade900,
   lightModeValue: Colors.grey.shade900,
   darkModeValue: Colors.grey.shade400,
 );
 
 final MyColor highlightTextColor = MyColor(
-  vividModeValue: Colors.black,
   lightModeValue: Colors.black,
   darkModeValue: Color.fromARGB(255, 230, 230, 230),
 );
 
 final MyColor switchColor = MyColor(
-  vividModeValue: Colors.black87,
   lightModeValue: Colors.black87,
   darkModeValue: Color.fromARGB(221, 0, 0, 0),
 );
 
 final MyColor glassColor = MyColor(
-  vividModeValue: Color.fromARGB(75, 255, 255, 255),
   lightModeValue: Color.fromARGB(128, 255, 255, 255),
   darkModeValue: Color.fromARGB(128, 30, 30, 30),
 );
 
 final MyColor panelColor = MyColor(
-  vividModeValue: Color.fromARGB(100, 245, 245, 245),
   lightModeValue: Colors.white,
   darkModeValue: Color.fromARGB(255, 50, 50, 50),
 );
 
 final MyColor sidebarColor = MyColor(
-  vividModeValue: Color.fromARGB(100, 238, 238, 238),
   lightModeValue: Colors.grey.shade50,
   darkModeValue: Color.fromARGB(255, 55, 55, 55),
 );
 
 final MyColor bottomColor = MyColor(
-  vividModeValue: Color.fromARGB(100, 250, 250, 250),
   lightModeValue: Colors.grey.shade100,
   darkModeValue: Color.fromARGB(255, 60, 60, 60),
 );
 
 final MyColor searchFieldColor = MyColor(
-  getVividValue: () {
-    final tmpColor =
-        backgroundPicture?.lowerLuminance ?? backgroundCoverArtColor;
-    return tmpColor.withAlpha(75);
-  },
   lightModeValue: Colors.grey.shade200,
   darkModeValue: Colors.grey.shade700,
 );
 
 final MyColor buttonColor = MyColor(
-  getVividValue: () {
-    final tmpColor =
-        backgroundPicture?.lowerLuminance ?? backgroundCoverArtColor;
-    return tmpColor.withAlpha(75);
-  },
   lightModeValue: Colors.grey.shade200,
   darkModeValue: Colors.grey.shade700,
 );
 
 final MyColor dividerColor = MyColor(
-  getVividValue: () {
-    return backgroundPicture?.lowerLuminance ?? backgroundCoverArtColor;
-  },
   lightModeValue: Colors.grey,
   darkModeValue: Colors.grey.shade700,
 );
 
 final MyColor selectedItemColor = MyColor(
-  getVividValue: () {
-    final tmpColor =
-        backgroundPicture?.lowerLuminance ?? backgroundCoverArtColor;
-    return tmpColor.withAlpha(75);
-  },
   lightModeValue: Colors.grey.shade200,
   darkModeValue: Colors.grey.shade700,
 );
 
 final MyColor menuColor = MyColor(
-  vividModeValue: Colors.white54,
   lightModeValue: Colors.grey.shade50,
   darkModeValue: Colors.grey.shade800,
 );
 
 final MyColor seekBarColor = MyColor(
-  vividModeValue: Colors.black,
   lightModeValue: Colors.black,
   darkModeValue: Colors.grey.shade400,
 );
 
 final MyColor volumeBarColor = MyColor(
-  vividModeValue: Colors.black,
   lightModeValue: Colors.black,
   darkModeValue: Colors.grey.shade400,
 );
@@ -308,15 +313,6 @@ class ColorManager {
     }
   }
 
-  void updateBigPictureRelatedColors(MyPicture? picture) {
-    backgroundPicture = picture;
-    backgroundCoverArtColor = backgroundPicture?.color ?? Colors.grey;
-    searchFieldColor.updateColor();
-    buttonColor.updateColor();
-    dividerColor.updateColor();
-    selectedItemColor.updateColor();
-  }
-
   void updateColors() {
     updateMainPageColors();
     updateLyricsPageColors();
@@ -325,30 +321,8 @@ class ColorManager {
     }
   }
 
-  Color? getSpecificMainPageCoverArtBaseColorForm(MyPicture? picture) {
-    return mainPageThemeNotifier.value == .vivid
-        ? picture == null
-              ? Colors.grey
-              : picture.color
-        : isMobile
-        ? pageBackgroundColor.value
-        : panelColor.value;
-  }
-
-  Color? getSpecificMainPageSearchFieldColorForm(MyPicture? picture) {
-    return mainPageThemeNotifier.value == .vivid
-        ? picture == null
-              ? Colors.grey.withAlpha(75)
-              : picture.color?.withAlpha(75)
-        : searchFieldColor.value;
-  }
-
   Color getSpecificMainPageCoverArtBaseColor() {
-    return mainPageThemeNotifier.value == .vivid
-        ? backgroundCoverArtColor
-        : isMobile
-        ? pageBackgroundColor.value
-        : panelColor.value;
+    return isMobile ? pageBackgroundColor.value : panelColor.value;
   }
 
   Color getSpecificLyricsPageCoverArtBaseColor() {
@@ -360,7 +334,9 @@ class ColorManager {
   Color getSpecificBgBaseColor() {
     return viewModeNotifier.value == .mini || displayLyricsPage
         ? currentCoverArtColor
-        : backgroundCoverArtColor;
+        : isMobile
+        ? pageBackgroundColor.value
+        : panelColor.value;
   }
 
   Color getSpecificBgColor() {
@@ -451,24 +427,22 @@ class MyColor {
   });
 
   void updateColor() {
-    if (pageType == 2) {
+    // 主页面只有浅色 / 深色两种，迷你播放器固定走封面取色。
+    if (pageType == 0) {
+      valueNotifier.value = mainPageThemeNotifier.value == .light
+          ? lightModeValue
+          : darkModeValue;
+      return;
+    }
+
+    if (pageType == 2 || lyricsPageThemeNotifier.value == .vivid) {
       valueNotifier.value = vividModeValue ?? getVividValue!.call();
       return;
     }
 
-    final themeType = pageType == 0
-        ? mainPageThemeNotifier.value
-        : lyricsPageThemeNotifier.value;
-    switch (themeType) {
-      case .vivid:
-        valueNotifier.value = vividModeValue ?? getVividValue!.call();
-        break;
-      case .light:
-        valueNotifier.value = lightModeValue;
-        break;
-      default:
-        valueNotifier.value = darkModeValue;
-    }
+    valueNotifier.value = lyricsPageThemeNotifier.value == .light
+        ? lightModeValue
+        : darkModeValue;
   }
 
   Color get value => valueNotifier.value;

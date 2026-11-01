@@ -5,7 +5,6 @@ import 'package:sylvakru/base/app.dart';
 import 'package:sylvakru/base/services/emby_client.dart';
 import 'package:sylvakru/base/services/feiniu_client.dart';
 import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
 import 'package:sylvakru/base/data/library.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
 
@@ -101,8 +100,6 @@ class History {
         frequentlyChangeNotifier.value++;
       }
     }
-
-    layersManager.updateBackground();
   }
 
   void _add2Recently(MyAudioMetadata song) {

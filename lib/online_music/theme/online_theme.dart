@@ -10,7 +10,7 @@ import 'package:sylvakru/base/services/color_manager.dart';
 /// 在线音乐页的配色。
 ///
 /// 全部映射到本地音乐那套全局主题（[ColorManager]），所以页面跟随
-/// vivid / 浅色 / 深色三种主题，而不是自带一套固定的紫色深色皮肤。
+/// 浅色 / 深色两种主题，而不是自带一套固定的紫色深色皮肤。
 class OnlinePalette {
   const OnlinePalette._();
 
@@ -19,53 +19,35 @@ class OnlinePalette {
   static const Color success = Color(0xFF34D399);
   static const Color warn = Color(0xFFFBBF24);
 
-  static bool get _vivid => mainPageThemeNotifier.value == .vivid;
-
-  /// 全屏页要自带不透明底色：vivid 用当前封面主色压暗（本地音乐那层半透明
-  /// 页面色是叠在封面背景上的，这个页面没有那层背景），浅/深色直接用页面色。
-  static Color get bg => _vivid
-      ? Color.alphaBlend(currentCoverArtColor.withAlpha(160), Colors.black)
-      : pageBackgroundColor.value;
+  /// 全屏页要自带不透明底色。
+  static Color get bg => pageBackgroundColor.value;
 
   /// 卡片 / 面板底色。深色主题下 `panelColor` 和页面色是同一个值，靠边框区分。
-  static Color get surface => _vivid
-      ? Color.alphaBlend(Colors.white.withAlpha(24), bg)
-      : panelColor.value;
+  static Color get surface => panelColor.value;
 
   /// 输入框、次级按钮、分隔线。
-  static Color get surfaceAlt => _vivid
-      ? Color.alphaBlend(Colors.white.withAlpha(48), bg)
-      : searchFieldColor.value;
+  static Color get surfaceAlt => searchFieldColor.value;
 
-  /// 列表行 / 卡片底色与描边。行要压在页面渐变上还能看出边界，所以比
-  /// [surface] 再淡一档，边框统一由前景色派生，浅色深色都不刺眼。
-  static Color get card => _vivid
-      ? Color.alphaBlend(Colors.white.withAlpha(14), bg)
-      : surface;
-  static Color get cardBorder => _vivid
-      ? Colors.white.withAlpha(26)
-      : text.withAlpha(20);
+  /// 列表行 / 卡片底色与描边。边框统一由前景色派生，浅色深色都不刺眼。
+  static Color get card => surface;
+  static Color get cardBorder => text.withAlpha(20);
 
   /// 鼠标悬停叠加色（画在行自己身上，见 TrackRow 的 hover 处理）。
-  static Color get hover => _vivid
-      ? Colors.white.withAlpha(18)
-      : text.withAlpha(14);
+  static Color get hover => text.withAlpha(14);
 
   /// 当前播放中的行：低透明主色底 + 主色描边。
   static Color get selected => primary.withAlpha(26);
   static Color get selectedBorder => primary.withAlpha(90);
 
-  /// 强调色：vivid 用封面算出来的对比色（和歌词页同一套），浅/深色用主题高亮色。
-  static Color get primary =>
-      _vivid ? contrastColorTheme.accent : highlightTextColor.value;
+  /// 强调色用主题高亮色。
+  static Color get primary => highlightTextColor.value;
   static Color get primaryLight => primary;
 
   /// 压在强调色上的前景色，按强调色自身明度取黑或白。
   static Color get onPrimary =>
       primary.computeLuminance() > 0.5 ? Colors.black : Colors.white;
 
-  static Color get text =>
-      _vivid ? contrastColorTheme.regular : textColor.value;
+  static Color get text => textColor.value;
   static Color get textDim => text.withAlpha(190);
   static Color get textFaint => text.withAlpha(140);
 }

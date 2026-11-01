@@ -162,8 +162,8 @@ Widget rootTabMoreButton(BuildContext context) {
 /// [TabController] - so tapping a tab, swiping the pages and the underline all
 /// stay in sync through the framework instead of a hand rolled list.
 ///
-/// It sits directly on the layer's own background (vivid / light / dark all come
-/// from there), so it must not paint a color of its own.
+/// It sits directly on the layer's own background, so it must not paint a color
+/// of its own.
 class RootTabBar extends StatelessWidget implements PreferredSizeWidget {
   const RootTabBar({super.key, required this.controller});
 

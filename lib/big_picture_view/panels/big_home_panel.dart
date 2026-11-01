@@ -78,19 +78,12 @@ class _BigHomePanelState extends State<BigHomePanel> {
               count: artistAlbumManager.albumList.length,
               getPicture: (index) =>
                   artistAlbumManager.albumList[index].picture,
-              onTap: (index) async {
-                final baseColor = await computeColor(
-                  artistAlbumManager.albumList[index].picture,
-                );
-                if (!context.mounted) {
-                  return;
-                }
+              onTap: (index) {
                 Navigator.of(context).push(
                   ZoomPageRoute(
                     builder: (context) {
                       return BigSingleAlbumPanel(
                         album: artistAlbumManager.albumList[index],
-                        baseColor: baseColor,
                       );
                     },
                   ),
@@ -121,21 +114,12 @@ class _BigHomePanelState extends State<BigHomePanel> {
           count: library.folderList.length,
           getPicture: (index) =>
               getFirstSong(library.folderList[index].songList)?.picture,
-          onTap: (index) async {
+          onTap: (index) {
             final folder = library.folderList[index];
-            final baseColor = await computeColor(
-              getFirstSong(folder.songList)?.picture,
-            );
-            if (!context.mounted) {
-              return;
-            }
             Navigator.of(context).push(
               ZoomPageRoute(
                 builder: (context) {
-                  return BigSingleFolderPanel(
-                    folder: folder,
-                    baseColor: baseColor,
-                  );
+                  return BigSingleFolderPanel(folder: folder);
                 },
               ),
             );
@@ -240,19 +224,12 @@ class _BigHomePanelState extends State<BigHomePanel> {
               title: l10n.playlists,
               count: playlistManager.playlists.length,
               getPicture: (index) => playlistManager.playlists[index].picture,
-              onTap: (index) async {
-                final baseColor = await computeColor(
-                  playlistManager.playlists[index].picture,
-                );
-                if (!context.mounted) {
-                  return;
-                }
+              onTap: (index) {
                 Navigator.of(context).push(
                   ZoomPageRoute(
                     builder: (context) {
                       return BigSinglePlaylistPanel(
                         playlist: playlistManager.playlists[index],
-                        baseColor: baseColor,
                       );
                     },
                   ),

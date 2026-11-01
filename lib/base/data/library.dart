@@ -153,7 +153,6 @@ class Library {
 
       if (songList.length == 1000 || songList.length % 10000 == 0) {
         changeNotifier.value++;
-        layersManager.updateBackground();
       }
     } while (true);
 
@@ -162,7 +161,6 @@ class Library {
 
     canModify = true;
     changeNotifier.value++;
-    layersManager.updateBackground();
 
     for (final folder in folderList) {
       await folder.load();
@@ -372,7 +370,10 @@ class Library {
     _savedOrder = order;
   }
 
-  Future<void> _saveBatchMetadata(List<MyAudioMetadata> songs, int start) async {
+  Future<void> _saveBatchMetadata(
+    List<MyAudioMetadata> songs,
+    int start,
+  ) async {
     final db = _metadataDB!;
     await db.transaction(() async {
       await db.batch((batch) {
@@ -437,7 +438,6 @@ class Library {
 
   void update() {
     changeNotifier.value++;
-    layersManager.updateBackground();
     if (isNotStreamSource) {
       _scheduleOrderSave();
     }
@@ -445,7 +445,6 @@ class Library {
 
   void _syncNotify() {
     changeNotifier.value++;
-    layersManager.updateBackground();
   }
 
   Future<MyAudioMetadata?> _parseMetadataIfNeed(

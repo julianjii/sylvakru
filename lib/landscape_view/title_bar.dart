@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
 import 'package:sylvakru/base/services/color_manager.dart';
 import 'package:sylvakru/base/app.dart';
 import 'package:sylvakru/base/asset_images.dart';
@@ -204,9 +203,6 @@ class _TitleBarState extends State<TitleBar> {
               }
               await Future.delayed(Duration(milliseconds: 250));
 
-              colorManager.updateBigPictureRelatedColors(
-                currentSongNotifier.value?.picture,
-              );
               viewModeNotifier.value = .bigPicture;
 
               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -232,7 +228,6 @@ class _TitleBarState extends State<TitleBar> {
           ),
 
         if (!isMobile) windowControls(),
-
 
         SizedBox(width: isMobile ? 10 : 30),
       ],

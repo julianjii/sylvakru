@@ -21,7 +21,6 @@ import 'package:sylvakru/base/widgets/custom_text_field.dart';
 import 'package:sylvakru/base/widgets/my_divider.dart';
 import 'package:sylvakru/l10n/generated/app_localizations.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class EditMetadata extends StatefulWidget {
@@ -341,8 +340,6 @@ class _EditMetadataState extends State<EditMetadata> {
 
         song.updateNotifier.value++;
         song.picture.changeNotifier.value++;
-
-        layersManager.updateBackground();
       }
       if (context.mounted) {
         showCenterMessage(

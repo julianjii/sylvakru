@@ -40,7 +40,6 @@ extension _SongListPage on _SongListState {
             key: ValueKey(getFirstSong(songList)),
             hintText: AppLocalizations.of(context).searchSongs,
             textController: textController,
-            useCurrentSong: false,
           );
         },
       ),

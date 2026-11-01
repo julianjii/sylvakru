@@ -1,7 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/media_query.dart';
 import 'package:sylvakru/base/utils/metadata_utils.dart';
 import 'package:sylvakru/base/utils/zoom_page_route.dart';
@@ -64,20 +63,14 @@ class _BigFoldersPanelState extends State<BigFoldersPanel> {
                     ),
                   ],
                 ),
-                onTap: () async {
-                  final baseColor = await computeColor(
-                    getFirstSong(folder.songList)?.picture,
-                  );
+                onTap: () {
                   if (!context.mounted) {
                     return;
                   }
                   Navigator.of(context).push(
                     ZoomPageRoute(
                       builder: (context) {
-                        return BigSingleFolderPanel(
-                          folder: folder,
-                          baseColor: baseColor,
-                        );
+                        return BigSingleFolderPanel(folder: folder);
                       },
                     ),
                   );

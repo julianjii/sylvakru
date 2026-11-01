@@ -26,7 +26,6 @@ import 'package:sylvakru/base/utils/path.dart';
 import 'package:sylvakru/base/widgets/equalizer.dart';
 import 'package:sylvakru/base/widgets/lyric_list_view.dart';
 import 'package:sylvakru/base/data/history.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
 import 'package:sylvakru/base/utils/contrast_color_generator.dart';
 import 'package:sylvakru/base/data/library.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
@@ -239,18 +238,6 @@ class MyAudioHandler extends BaseAudioHandler {
           await skipToNext(); // automatically go to next song
         }
       }
-    });
-
-    currentSongNotifier.addListener(() {
-      if (viewModeNotifier.value == .bigPicture) {
-        if (useCurrentSongForBg) {
-          colorManager.updateBigPictureRelatedColors(
-            currentSongNotifier.value?.picture,
-          );
-        }
-        return;
-      }
-      layersManager.updateBackground();
     });
 
     _player.stream.position.listen((position) {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +7,6 @@ import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:sylvakru/base/app.dart';
 import 'package:sylvakru/base/asset_images.dart';
-import 'package:sylvakru/base/audio_handler.dart';
 import 'package:sylvakru/base/data/history.dart';
 import 'package:sylvakru/base/data/library.dart';
 import 'package:sylvakru/base/services/color_manager.dart';
@@ -16,7 +14,6 @@ import 'package:sylvakru/base/services/interaction.dart';
 import 'package:sylvakru/base/services/my_window_listener.dart';
 import 'package:sylvakru/base/utils/media_query.dart';
 import 'package:sylvakru/base/widgets/big_play_bar.dart';
-import 'package:sylvakru/base/widgets/cover_art_widget.dart';
 import 'package:sylvakru/base/widgets/scale_widget.dart';
 import 'package:sylvakru/big_picture_view/panels/big_albums_panel.dart';
 import 'package:sylvakru/big_picture_view/panels/big_artists_panel.dart';
@@ -71,98 +68,58 @@ class _BigPictureViewState extends State<BigPictureView> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: mainPageThemeNotifier,
-      builder: (context, value, child) {
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            ListenableBuilder(
-              listenable: Listenable.merge([currentSongNotifier]),
-              builder: (context, _) {
-                if (mainPageThemeNotifier.value != .vivid) {
-                  return SizedBox.shrink();
+      builder: (context, value, child) => Stack(
+        fit: StackFit.expand,
+        children: [
+          Material(
+            color: panelColor.value,
+            child: KeyboardListener(
+              focusNode: pageViewNode,
+              onKeyEvent: (value) {
+                if (value is KeyUpEvent) {
+                  return;
                 }
-                return CoverArtWidget(
-                  picture: currentSongNotifier.value?.picture,
-                  color: currentCoverArtColor,
-                );
-              },
-            ),
-            ListenableBuilder(
-              listenable: Listenable.merge([currentSongNotifier]),
-              builder: (context, child) {
-                if (mainPageThemeNotifier.value != .vivid) {
-                  return SizedBox.shrink();
+                if (value.logicalKey == .goBack || value.logicalKey == .keyT) {
+                  topNode.requestFocus();
                 }
-                final pageWidth = MediaQuery.widthOf(context);
-                final pageHight = MediaQuery.heightOf(context);
-
-                return RepaintBoundary(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: pageWidth * 0.03,
-                      sigmaY: pageHight * 0.03,
-                    ),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOutCubic,
-                      color: currentCoverArtColor.withAlpha(180),
-                    ),
-                  ),
-                );
               },
-            ),
-
-            Material(
-              color: panelColor.value,
-              child: KeyboardListener(
-                focusNode: pageViewNode,
-                onKeyEvent: (value) {
-                  if (value is KeyUpEvent) {
-                    return;
-                  }
-                  if (value.logicalKey == .goBack ||
-                      value.logicalKey == .keyT) {
+              child: GamepadInterceptor(
+                onBeforeIntent: (activator, intent) {
+                  if (intent is DismissIntent) {
                     topNode.requestFocus();
+                    return false;
                   }
+                  return true;
                 },
-                child: GamepadInterceptor(
-                  onBeforeIntent: (activator, intent) {
-                    if (intent is DismissIntent) {
-                      topNode.requestFocus();
-                      return false;
-                    }
-                    return true;
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (value) {
+                    _currentIndexNotifier.value = value;
                   },
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (value) {
-                      _currentIndexNotifier.value = value;
-                    },
-                    children: pages,
-                  ),
+                  children: pages,
                 ),
               ),
             ),
+          ),
 
-            topBar(context),
-            bottomBar(context),
-            ValueListenableBuilder(
-              valueListenable: _currentIndexNotifier,
-              builder: (context, index, _) {
-                // playlists page is index 7 in [pages]
-                if (index != 7) {
-                  return const SizedBox.shrink();
-                }
-                return Positioned(
-                  right: 30,
-                  bottom: 110,
-                  child: createPlaylistFab(context),
-                );
-              },
-            ),
-          ],
-        );
-      },
+          topBar(context),
+          bottomBar(context),
+          ValueListenableBuilder(
+            valueListenable: _currentIndexNotifier,
+            builder: (context, index, _) {
+              // playlists page is index 7 in [pages]
+              if (index != 7) {
+                return const SizedBox.shrink();
+              }
+              return Positioned(
+                right: 30,
+                bottom: 110,
+                child: createPlaylistFab(context),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 

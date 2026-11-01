@@ -1,4 +1,4 @@
-// 在线音乐配色跟随全局主题：浅/深色取主题页面色，vivid 取封面主色压暗。
+// 在线音乐配色跟随全局主题：浅/深色取主题页面色。
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:sylvakru/base/app.dart';
@@ -7,7 +7,7 @@ import 'package:sylvakru/online_music/theme/online_theme.dart';
 
 void main() {
   test('在线音乐配色跟随全局主题', () {
-    for (final theme in ThemeType.values) {
+    for (final theme in [ThemeType.light, ThemeType.dark]) {
       mainPageThemeNotifier.value = theme;
       colorManager.updateMainPageColors();
 

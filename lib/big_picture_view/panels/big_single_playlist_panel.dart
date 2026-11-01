@@ -6,11 +6,7 @@ import 'package:sylvakru/l10n/generated/app_localizations.dart';
 
 class BigSinglePlaylistPanel extends BigSongListWithCoverBasePanel {
   final Playlist playlist;
-  const BigSinglePlaylistPanel({
-    super.key,
-    required this.playlist,
-    required super.baseColor,
-  });
+  const BigSinglePlaylistPanel({super.key, required this.playlist});
 
   @override
   State<StatefulWidget> createState() => _BigSinglePlaylistPanelState();

@@ -47,6 +47,7 @@ class Loader {
 
     await config.load();
     await setting.load();
+    initMainPageTheme();
 
     colorManager.updateColors();
 

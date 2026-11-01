@@ -11,7 +11,6 @@ import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/services/stream_client.dart';
 import 'package:sylvakru/base/utils/path.dart';
 import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
 import 'package:sylvakru/base/data/library.dart';
 import 'package:sylvakru/base/my_audio_metadata.dart';
 
@@ -233,7 +232,6 @@ class Playlist {
 
     canModify = true;
     changeNotifier.value++;
-    layersManager.updateBackground();
   }
 
   Future<void> sync() async {
@@ -257,7 +255,6 @@ class Playlist {
       }
       canModify = true;
       changeNotifier.value++;
-      layersManager.updateBackground();
     }
     final songIds = songList.map((e) => e.id).toList();
     await songListFile.writeAsString(jsonEncode(songIds));
@@ -310,8 +307,6 @@ class Playlist {
     if (Platform.isIOS) {
       HomeWidgetService.updatePlaylistsWidget();
     }
-
-    layersManager.updateBackground();
 
     final songIds = songList.map((e) => e.id).toList();
     await songListFile.writeAsString(jsonEncode(songIds));

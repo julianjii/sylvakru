@@ -5,11 +5,7 @@ import 'package:sylvakru/big_picture_view/panels/big_song_list_with_cover_base_p
 
 class BigSingleFolderPanel extends BigSongListWithCoverBasePanel {
   final Folder folder;
-  const BigSingleFolderPanel({
-    super.key,
-    required this.folder,
-    required super.baseColor,
-  });
+  const BigSingleFolderPanel({super.key, required this.folder});
 
   @override
   State<StatefulWidget> createState() => _BigSingleFolderPanelState();

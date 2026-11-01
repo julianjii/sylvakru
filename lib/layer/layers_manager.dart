@@ -1,17 +1,12 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
 import 'package:sylvakru/base/data/artist_album.dart';
 import 'package:sylvakru/base/data/folder.dart';
 import 'package:sylvakru/base/services/color_manager.dart';
 import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
 import 'package:sylvakru/base/utils/dynamic_detail_route.dart';
 import 'package:sylvakru/base/utils/media_query.dart';
-import 'package:sylvakru/base/widgets/cover_art_widget.dart';
-import 'package:sylvakru/base/data/history.dart';
 import 'package:sylvakru/landscape_view/sidebar.dart';
 import 'package:sylvakru/layer/about_layer.dart';
 import 'package:sylvakru/layer/albums_layer.dart';
@@ -29,22 +24,11 @@ import 'package:sylvakru/layer/single_artist_layer.dart';
 import 'package:sylvakru/layer/single_folder_layer.dart';
 import 'package:sylvakru/layer/single_playlist_layer.dart';
 import 'package:sylvakru/layer/songs_layer.dart';
-import 'package:sylvakru/base/data/library.dart';
 import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
 
 final layersManager = LayersManager();
 
-class LayerInfo {
-  MyPicture? backgroundPicture;
-  Color backgroundCoverArtColor;
-  final changeNotifier = ValueNotifier(0);
-  LayerInfo(this.backgroundPicture, this.backgroundCoverArtColor);
-}
-
 class LayersManager {
-  final Map<Widget, LayerInfo> layerInfoMap = {};
-
   // lable -> rootLayer
   final Map<String, Widget> rootLayerMap = {};
   // rootLayer -> rootPage
@@ -58,7 +42,6 @@ class LayersManager {
 
   Widget? topRootPage;
 
-  final backgroundChangeNotifier = ValueNotifier(0);
   final switchNotifier = ValueNotifier(0);
 
   // bumped whenever a detail page is pushed / popped, so the narrow layout can
@@ -66,57 +49,10 @@ class LayersManager {
   final detailChangeNotifier = ValueNotifier(0);
 
   Widget createPage(Widget layer) {
-    // start from the background currently on screen: pages pushed on top of a
-    // layer (the settings route and its children) are never visited by
-    // updateBackground, so they would otherwise flash a grey backplate
-    final layerInfo = layerInfoMap.putIfAbsent(
-      layer,
-      () => LayerInfo(backgroundPicture, backgroundCoverArtColor),
-    );
     return Stack(
       key: GlobalKey(),
       fit: .expand,
       children: [
-        ValueListenableBuilder(
-          valueListenable: mainPageThemeNotifier,
-          builder: (context, value, child) {
-            if (value != .vivid) {
-              return SizedBox.shrink();
-            }
-            return ValueListenableBuilder(
-              valueListenable: layerInfo.changeNotifier,
-              builder: (context, value, child) {
-                return CoverArtWidget(
-                  picture: layerInfo.backgroundPicture,
-                  color: layerInfo.backgroundCoverArtColor,
-                );
-              },
-            );
-          },
-        ),
-        ValueListenableBuilder(
-          valueListenable: mainPageThemeNotifier,
-          builder: (context, value, child) {
-            if (value != .vivid) {
-              return SizedBox.shrink();
-            }
-
-            // ClipRect is important
-            return ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-                child: ValueListenableBuilder(
-                  valueListenable: layerInfo.changeNotifier,
-                  builder: (context, value, child) {
-                    return Container(
-                      color: layerInfo.backgroundCoverArtColor.withAlpha(180),
-                    );
-                  },
-                ),
-              ),
-            );
-          },
-        ),
         ValueListenableBuilder(
           valueListenable: pageBackgroundColor.valueNotifier,
           builder: (context, value, child) {
@@ -175,7 +111,6 @@ class LayersManager {
 
     sidebarHighlighLabel.value = label;
     switchNotifier.value++;
-    updateBackground();
   }
 
   // in a narrow layout settings is not a root layer but a route pushed on the
@@ -210,8 +145,6 @@ class LayersManager {
     navigator.push(MaterialPageRoute(builder: (context) => page)).whenComplete(
       () {
         settingsPagePushed = false;
-        layerInfoMap.remove(layer);
-        updateBackground();
       },
     );
   }
@@ -325,8 +258,6 @@ class LayersManager {
     }
     detailWidgetMap[rootLayer] = detailLayer;
 
-    await layersManager.updateBackground();
-
     final detailPage = createPage(detailLayer);
     rootKey.currentState?.push(
       DynamicDetailRoute(
@@ -383,8 +314,6 @@ class LayersManager {
       }
     }
 
-    await layersManager.updateBackground();
-
     if ((rootKey.currentState?.canPop() ?? false) && executePop) {
       rootKey.currentState?.pop();
     }
@@ -421,72 +350,6 @@ class LayersManager {
     }
   }
 
-  MyPicture? _getBackgroundPicture(Widget layer) {
-    if (layer is SingleArtistLayer) {
-      return layer.artist.picture;
-    } else if (layer is SingleAlbumLayer) {
-      return layer.album.picture;
-    } else if (layer is SingleFolderLayer) {
-      return getFirstSong(layer.folder.songList)?.picture;
-    } else if (layer is SongsLayer) {
-      return getFirstSong(library.songList)?.picture;
-    } else if (layer is FrequentlyLayer) {
-      return getFirstSong(history.frequentlySongList)?.picture;
-    } else if (layer is RecentlyLayer) {
-      return getFirstSong(history.recentlySongList)?.picture;
-    } else if (layer is SinglePlaylistLayer) {
-      return layer.playlist.picture;
-    } else {
-      return currentSongNotifier.value?.picture;
-    }
-  }
-
-  void _updateLayerInfo(
-    Widget layer,
-    MyPicture? bgPicture,
-    Color bgCoverArtColor,
-  ) {
-    final layerInfo = layerInfoMap.putIfAbsent(
-      layer,
-      () => LayerInfo(bgPicture, bgCoverArtColor),
-    );
-    if (layerInfo.backgroundPicture != bgPicture ||
-        layerInfo.backgroundCoverArtColor != bgCoverArtColor) {
-      layerInfo.backgroundPicture = bgPicture;
-      layerInfo.backgroundCoverArtColor = bgCoverArtColor;
-      layerInfo.changeNotifier.value++;
-    }
-  }
-
-  Future<void> updateBackground() async {
-    if (topRootLayer == null || viewModeNotifier.value == .bigPicture) {
-      return;
-    }
-
-    Widget displayLayer = topRootLayer!;
-    Widget? tmpLayer = detailWidgetMap[topRootLayer];
-    if (tmpLayer != null) {
-      displayLayer = tmpLayer;
-      while ((tmpLayer = parentWidgetMap[tmpLayer]) != null) {
-        final tmpBgPicture = _getBackgroundPicture(tmpLayer!);
-        final tmpBgCoverArtColor = await computeColor(tmpBgPicture);
-        _updateLayerInfo(tmpLayer, tmpBgPicture, tmpBgCoverArtColor);
-      }
-    }
-
-    backgroundPicture = _getBackgroundPicture(displayLayer);
-    backgroundCoverArtColor = await computeColor(backgroundPicture);
-    _updateLayerInfo(displayLayer, backgroundPicture, backgroundCoverArtColor);
-
-    if (mainPageThemeNotifier.value == .vivid) {
-      searchFieldColor.updateColor();
-      buttonColor.updateColor();
-      dividerColor.updateColor();
-      selectedItemColor.updateColor();
-      backgroundChangeNotifier.value++;
-    }
-  }
-
   void clearAll() async {
     popDetail('artists', executePop: false);
     popDetail('albums', executePop: false);
@@ -495,7 +358,6 @@ class LayersManager {
     popDetail('home', executePop: false);
     while (await layersManager.popDetail('settings')) {}
 
-    layerInfoMap.clear();
     rootLayerMap.clear();
     rootPageMap.clear();
 
@@ -512,7 +374,6 @@ class LayersManager {
     popDetail('playlists', executePop: false);
     popDetail('home', executePop: false);
 
-    layerInfoMap.removeWhere((k, v) => k != topRootLayer);
     rootLayerMap.removeWhere((k, v) => v != topRootLayer);
     rootPageMap.removeWhere((k, v) => k != topRootLayer);
 
@@ -526,7 +387,6 @@ class LayersManager {
     final artistsLayer = rootLayerMap['artists'];
     final albumLayer = rootLayerMap['albums'];
 
-    layerInfoMap.removeWhere((k, v) => k == artistsLayer || k == albumLayer);
     rootPageMap.removeWhere((k, v) => k == artistsLayer || k == albumLayer);
     rootLayerMap.removeWhere((k, v) => k == 'artists' || k == 'albums');
 
