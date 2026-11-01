@@ -1,22 +1,22 @@
 import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/data/config.dart';
-import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/data/loader.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/services/emby_client.dart';
-import 'package:sylvakru/base/services/feiniu_client.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/services/navidrome_client.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/base/services/webdav_client.dart';
-import 'package:sylvakru/base/utils/source_type.dart';
-import 'package:sylvakru/base/widgets/custom_text_field.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/data/config.dart';
+import 'package:mymusic/base/data/library.dart';
+import 'package:mymusic/base/data/loader.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/services/emby_client.dart';
+import 'package:mymusic/base/services/feiniu_client.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/services/navidrome_client.dart';
+import 'package:mymusic/base/services/stream_client.dart';
+import 'package:mymusic/base/services/webdav_client.dart';
+import 'package:mymusic/base/utils/source_type.dart';
+import 'package:mymusic/base/widgets/custom_text_field.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
 
 class ConnectClientWidget extends StatefulWidget {
   final SourceType sourceType;

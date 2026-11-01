@@ -4,8 +4,8 @@
 // https://raw.githubusercontent.com/pdone/lx-music-source/main/juhe/latest.js
 // 它只有两步：GET {base}/init.conf 拿音源表，POST {base}/{source} 取直链。
 
-import 'package:sylvakru/online_music/lx_js/lx_js_bridge.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_source.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_bridge.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_source.dart';
 
 /// 真实脚本原文（未做任何翻译/改写）。
 const String lxJuheSampleScript = r'''/*! * @name 聚合API接口 (CF) * @description v3 * @version 3 * @author lerd */

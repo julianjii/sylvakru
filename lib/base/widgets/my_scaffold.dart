@@ -1,5 +1,5 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/portrait_view/my_app_bar.dart';
+import 'package:mymusic/portrait_view/my_app_bar.dart';
 
 /// The shared portrait page scaffold of upstream.
 ///

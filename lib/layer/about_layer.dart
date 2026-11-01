@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:smooth_corner/smooth_corner.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/utils/media_query.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/landscape_view/title_bar.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
-import 'package:sylvakru/layer/settings_layer.dart';
-import 'package:sylvakru/portrait_view/my_app_bar.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/utils/media_query.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/landscape_view/title_bar.dart';
+import 'package:mymusic/layer/layers_manager.dart';
+import 'package:mymusic/layer/settings_layer.dart';
+import 'package:mymusic/portrait_view/my_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part '../portrait_view/pages/about_page.dart';
@@ -52,11 +52,11 @@ class _AboutLayerState extends State<AboutLayer> {
   }
 
   void openPrivacy() {
-    launchUrl(Uri.parse("https://www.sylvakru.com/privacy_en.html"));
+    launchUrl(Uri.parse("https://www.mymusic.com/privacy_en.html"));
   }
 
   void openGitHub() {
-    launchUrl(Uri.parse("https://github.com/JulianJii/sylvakru"));
+    launchUrl(Uri.parse("https://github.com/JulianJii/mymusic"));
   }
 
   Widget buildTile({
@@ -96,7 +96,7 @@ class _AboutLayerState extends State<AboutLayer> {
             builder: (_, color, _) {
               return Center(
                 child: Text(
-                  l10n.sylvakru,
+                  l10n.mymusic,
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -129,12 +129,12 @@ class _AboutLayerState extends State<AboutLayer> {
 
           Center(
             child: const Text(
-              '© 2025-2026 AfalpHy',
+              '© 2025-2026 julianjii',
               style: .new(fontWeight: .bold),
             ),
           ),
 
-          if (Platform.isIOS && l10n.sylvakru == '森露')
+          if (Platform.isIOS && l10n.mymusic == '森露')
             Center(
               child: TextButton(
                 onPressed: () {

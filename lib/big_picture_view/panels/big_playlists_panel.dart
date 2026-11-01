@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/utils/zoom_page_route.dart';
-import 'package:sylvakru/big_picture_view/panels/big_collection_list_panel.dart';
-import 'package:sylvakru/big_picture_view/panels/big_single_playlist_panel.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/utils/zoom_page_route.dart';
+import 'package:mymusic/big_picture_view/panels/big_collection_list_panel.dart';
+import 'package:mymusic/big_picture_view/panels/big_single_playlist_panel.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
 
 class BigPlaylistsPanel extends BigCollectionListPanel {
   const BigPlaylistsPanel({super.key});

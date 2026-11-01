@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:sylvakru/base/services/logger.dart';
+import 'package:mymusic/base/services/logger.dart';
 
 final streamRelay = StreamRelay();
 

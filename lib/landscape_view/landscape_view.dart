@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/landscape_view/bottom_control.dart';
-import 'package:sylvakru/landscape_view/sidebar.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/landscape_view/bottom_control.dart';
+import 'package:mymusic/landscape_view/sidebar.dart';
+import 'package:mymusic/layer/layers_manager.dart';
 
 class LandscapeView extends StatelessWidget {
   const LandscapeView({super.key});

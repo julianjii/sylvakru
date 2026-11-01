@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/data/artist_album.dart';
-import 'package:sylvakru/base/data/setting.dart';
-import 'package:sylvakru/base/utils/zoom_page_route.dart';
-import 'package:sylvakru/big_picture_view/panels/big_collection_list_panel.dart';
-import 'package:sylvakru/big_picture_view/panels/big_single_album_panel.dart';
+import 'package:mymusic/base/data/artist_album.dart';
+import 'package:mymusic/base/data/setting.dart';
+import 'package:mymusic/base/utils/zoom_page_route.dart';
+import 'package:mymusic/big_picture_view/panels/big_collection_list_panel.dart';
+import 'package:mymusic/big_picture_view/panels/big_single_album_panel.dart';
 
 class BigAlbumsPanel extends BigCollectionListPanel {
   const BigAlbumsPanel({super.key});

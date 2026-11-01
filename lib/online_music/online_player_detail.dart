@@ -10,13 +10,13 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:material_ui/material_ui.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/services/lyric.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
-import 'package:sylvakru/online_music/theme/online_theme.dart';
-import 'package:sylvakru/online_music/widgets/online_page_widgets.dart';
-import 'package:sylvakru/online_music/online_window_drag_area.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/services/lyric.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
+import 'package:mymusic/online_music/theme/online_theme.dart';
+import 'package:mymusic/online_music/widgets/online_page_widgets.dart';
+import 'package:mymusic/online_music/online_window_drag_area.dart';
 
 /// 当前在播的在线曲目。搜索/歌单结果是唯一来源（封面、歌词都靠它）。
 final ValueNotifier<OnlineTrack?> onlineNowPlaying = ValueNotifier(null);

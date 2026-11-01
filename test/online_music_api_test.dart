@@ -4,11 +4,11 @@ import 'dart:io';
 
 import 'package:charset/charset.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sylvakru/base/app.dart' as app;
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_bridge.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_source.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
+import 'package:mymusic/base/app.dart' as app;
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_bridge.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_source.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
 
 void main() {
   // 服务端错误页正文是几千行样式，只有 <title> 说了发生了什么。

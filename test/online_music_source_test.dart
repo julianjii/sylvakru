@@ -6,7 +6,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
 
 void main() {
   test('txZzcSign 与 lx 原实现（node）输出一致', () {

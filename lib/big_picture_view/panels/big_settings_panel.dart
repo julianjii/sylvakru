@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:sylvakru/base/utils/media_query.dart';
-import 'package:sylvakru/base/widgets/settings_list.dart';
+import 'package:mymusic/base/utils/media_query.dart';
+import 'package:mymusic/base/widgets/settings_list.dart';
 
 class BigSettingsPanel extends StatefulWidget {
   const BigSettingsPanel({super.key});

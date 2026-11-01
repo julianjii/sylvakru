@@ -1,8 +1,8 @@
 // 酷我音源：接口与解析规则取自 lx-music 的 `musicSdk/kw/musicSearch.js`。
 
-import 'package:sylvakru/online_music/api/online_http.dart';
-import 'package:sylvakru/online_music/api/online_models.dart';
-import 'package:sylvakru/online_music/api/online_searcher.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/api/online_models.dart';
+import 'package:mymusic/online_music/api/online_searcher.dart';
 
 /// 酷我。
 class KwSearcher implements OnlineSearcher {

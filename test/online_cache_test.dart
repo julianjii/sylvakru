@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sylvakru/online_music/online_cache.dart';
+import 'package:mymusic/online_music/online_cache.dart';
 
 void main() {
   test('缓存文件名跟着音质走且同曲同档稳定', () {

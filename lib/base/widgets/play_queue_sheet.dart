@@ -1,13 +1,13 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/asset_images.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/widgets/buttons.dart';
-import 'package:sylvakru/base/widgets/cover_art_widget.dart';
-import 'package:sylvakru/base/widgets/my_sheet.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/asset_images.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/widgets/buttons.dart';
+import 'package:mymusic/base/widgets/cover_art_widget.dart';
+import 'package:mymusic/base/widgets/my_sheet.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
 
 class PlayQueueSheet extends StatefulWidget {
   const PlayQueueSheet({super.key});

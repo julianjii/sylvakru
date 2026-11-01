@@ -4,22 +4,22 @@ import 'dart:ui';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:smooth_corner/smooth_corner.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/asset_images.dart';
-import 'package:sylvakru/base/widgets/buttons.dart';
-import 'package:sylvakru/base/widgets/cover_art_widget.dart';
-import 'package:sylvakru/base/data/setting.dart';
-import 'package:sylvakru/landscape_view/speaker.dart';
-import 'package:sylvakru/landscape_view/title_bar.dart';
-import 'package:sylvakru/landscape_view/volume_bar.dart';
-import 'package:sylvakru/layer/lyrics_page_layer.dart';
-import 'package:sylvakru/base/widgets/lyric_list_view.dart';
-import 'package:sylvakru/base/widgets/seekbar.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
-import 'package:sylvakru/base/utils/dynamic_lyrics_page_route.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/asset_images.dart';
+import 'package:mymusic/base/widgets/buttons.dart';
+import 'package:mymusic/base/widgets/cover_art_widget.dart';
+import 'package:mymusic/base/data/setting.dart';
+import 'package:mymusic/landscape_view/speaker.dart';
+import 'package:mymusic/landscape_view/title_bar.dart';
+import 'package:mymusic/landscape_view/volume_bar.dart';
+import 'package:mymusic/layer/lyrics_page_layer.dart';
+import 'package:mymusic/base/widgets/lyric_list_view.dart';
+import 'package:mymusic/base/widgets/seekbar.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
+import 'package:mymusic/base/utils/dynamic_lyrics_page_route.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class LandscapeLyricsPage extends StatefulWidget {

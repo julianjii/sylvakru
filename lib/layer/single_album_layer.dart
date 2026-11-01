@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/data/artist_album.dart';
-import 'package:sylvakru/base/widgets/song_list.dart';
+import 'package:mymusic/base/data/artist_album.dart';
+import 'package:mymusic/base/widgets/song_list.dart';
 
 class SingleAlbumLayer extends StatelessWidget {
   final Album album;

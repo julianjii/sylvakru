@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sylvakru/base/data/database.dart';
+import 'package:mymusic/base/data/database.dart';
 
 /// v3 时期的表结构：没有 order_index，顺序由 rowid 隐式承载。
 const _v3Schema = '''

@@ -1,12 +1,12 @@
 // 音源搜索接口、歌单详情缓存 mixin 与音源注册表。
 
-import 'package:sylvakru/online_music/api/online_http.dart';
-import 'package:sylvakru/online_music/api/online_models.dart';
-import 'package:sylvakru/online_music/api/searchers/kg_searcher.dart';
-import 'package:sylvakru/online_music/api/searchers/kw_searcher.dart';
-import 'package:sylvakru/online_music/api/searchers/mg_searcher.dart';
-import 'package:sylvakru/online_music/api/searchers/tx_searcher.dart';
-import 'package:sylvakru/online_music/api/searchers/wy_searcher.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/api/online_models.dart';
+import 'package:mymusic/online_music/api/searchers/kg_searcher.dart';
+import 'package:mymusic/online_music/api/searchers/kw_searcher.dart';
+import 'package:mymusic/online_music/api/searchers/mg_searcher.dart';
+import 'package:mymusic/online_music/api/searchers/tx_searcher.dart';
+import 'package:mymusic/online_music/api/searchers/wy_searcher.dart';
 
 /// 一个音源要提供的搜索能力。
 abstract class OnlineSearcher {

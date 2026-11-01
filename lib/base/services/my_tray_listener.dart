@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/services/exit.dart';
-import 'package:sylvakru/base/services/my_window_listener.dart';
-import 'package:sylvakru/base/services/taskbar_service.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/services/exit.dart';
+import 'package:mymusic/base/services/my_window_listener.dart';
+import 'package:mymusic/base/services/taskbar_service.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 

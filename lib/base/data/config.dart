@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/emby_client.dart';
-import 'package:sylvakru/base/services/feiniu_client.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/services/navidrome_client.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/base/services/webdav_client.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/emby_client.dart';
+import 'package:mymusic/base/services/feiniu_client.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/services/navidrome_client.dart';
+import 'package:mymusic/base/services/stream_client.dart';
+import 'package:mymusic/base/services/webdav_client.dart';
 
 final config = Config();
 

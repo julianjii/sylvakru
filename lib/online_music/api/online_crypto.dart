@@ -8,7 +8,7 @@ import 'package:charset/charset.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 
-import 'package:sylvakru/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
 
 /// QQ 音乐 `zzcSign`（lx `musicSdk/tx/utils/crypto.js`）：SHA1 按固定下标拆成
 /// 前后两段，中段逐字节异或后 base64 去掉 `/\+=`，整体小写。

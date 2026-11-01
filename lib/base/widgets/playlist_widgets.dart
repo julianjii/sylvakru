@@ -1,15 +1,15 @@
 import 'dart:math';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/data/loader.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/asset_images.dart';
-import 'package:sylvakru/base/services/home_widget_service.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/widgets/cover_art_widget.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
+import 'package:mymusic/base/data/loader.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/asset_images.dart';
+import 'package:mymusic/base/services/home_widget_service.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/widgets/cover_art_widget.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 
 class Add2PlaylistPanel extends StatefulWidget {

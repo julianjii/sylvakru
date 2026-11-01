@@ -33,7 +33,7 @@ class AppDelegate: FlutterAppDelegate {
     let controller = mainFlutterWindow?.contentViewController as? FlutterViewController
 
     menuChannel = FlutterMethodChannel(
-      name: "com.afalphy.menu",
+      name: "com.wode.menu",
       binaryMessenger: controller!.engine.binaryMessenger
     )
 
@@ -49,10 +49,10 @@ class AppDelegate: FlutterAppDelegate {
     }
 
     // Reports the system HTTP proxy (written by proxy apps' "System Proxy"
-    // toggle); Dart reads it via the com.afalphy.system_proxy channel to
+    // toggle); Dart reads it via the com.wode.system_proxy channel to
     // route Dio and libmpv.
     let systemProxyChannel = FlutterMethodChannel(
-      name: "com.afalphy.system_proxy",
+      name: "com.wode.system_proxy",
       binaryMessenger: controller!.engine.binaryMessenger
     )
 

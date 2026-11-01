@@ -19,7 +19,7 @@ dependencies {
 }
 
 android {
-    namespace = "com.afalphy.sylvakru"
+    namespace = "com.wode.mymusic"
     compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
@@ -38,7 +38,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.afalphy.sylvakru"
+        applicationId = "com.wode.mymusic"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

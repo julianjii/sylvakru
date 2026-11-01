@@ -6,34 +6,34 @@ import 'package:audio_session/audio_session.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:sylvakru/base/data/loader.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/services/background_task_service.dart';
-import 'package:sylvakru/base/services/home_widget_service.dart';
-import 'package:sylvakru/base/services/my_window_listener.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
-import 'package:sylvakru/base/services/play_queue_logic.dart';
-import 'package:sylvakru/base/services/stream_relay.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/base/services/taskbar_service.dart';
-import 'package:sylvakru/base/services/webdav_client.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/services/lyric.dart';
-import 'package:sylvakru/base/utils/dynamic_lyrics_page_route.dart';
-import 'package:sylvakru/base/utils/path.dart';
-import 'package:sylvakru/base/widgets/equalizer.dart';
-import 'package:sylvakru/base/widgets/lyric_list_view.dart';
-import 'package:sylvakru/base/data/history.dart';
-import 'package:sylvakru/base/utils/contrast_color_generator.dart';
-import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/layer/lyrics_page_layer.dart';
+import 'package:mymusic/base/data/loader.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/services/background_task_service.dart';
+import 'package:mymusic/base/services/home_widget_service.dart';
+import 'package:mymusic/base/services/my_window_listener.dart';
+import 'package:mymusic/base/services/picture_service.dart';
+import 'package:mymusic/base/services/play_queue_logic.dart';
+import 'package:mymusic/base/services/stream_relay.dart';
+import 'package:mymusic/base/services/stream_client.dart';
+import 'package:mymusic/base/services/taskbar_service.dart';
+import 'package:mymusic/base/services/webdav_client.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/services/lyric.dart';
+import 'package:mymusic/base/utils/dynamic_lyrics_page_route.dart';
+import 'package:mymusic/base/utils/path.dart';
+import 'package:mymusic/base/widgets/equalizer.dart';
+import 'package:mymusic/base/widgets/lyric_list_view.dart';
+import 'package:mymusic/base/data/history.dart';
+import 'package:mymusic/base/utils/contrast_color_generator.dart';
+import 'package:mymusic/base/data/library.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
+import 'package:mymusic/layer/lyrics_page_layer.dart';
 import 'dart:async';
 
-import 'package:sylvakru/portrait_view/sleep_timer.dart';
+import 'package:mymusic/portrait_view/sleep_timer.dart';
 
 late AudioSession _session;
 bool _sessionActive = false;
@@ -70,8 +70,8 @@ Future<void> initAudioService() async {
     audioHandler = await AudioService.init(
       builder: () => MyAudioHandler(),
       config: const AudioServiceConfig(
-        androidNotificationChannelId: 'com.afalphy.sylvakru',
-        androidNotificationChannelName: 'Sylvakru',
+        androidNotificationChannelId: 'com.wode.mymusic',
+        androidNotificationChannelName: 'MyMusic',
         androidNotificationOngoing: true,
       ),
     );
@@ -99,7 +99,7 @@ Future<void> initAudioService() async {
     });
 
     if (isMobile) {
-      const channel = MethodChannel('com.afalphy.audio_control');
+      const channel = MethodChannel('com.wode.audio_control');
 
       channel.setMethodCallHandler((call) async {
         switch (call.method) {

@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/exit.dart';
-import 'package:sylvakru/base/data/setting.dart';
-import 'package:sylvakru/base/utils/path.dart';
-import 'package:sylvakru/mini_view/mini_view.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/exit.dart';
+import 'package:mymusic/base/data/setting.dart';
+import 'package:mymusic/base/utils/path.dart';
+import 'package:mymusic/mini_view/mini_view.dart';
 import 'package:window_manager/window_manager.dart';
 
 late final MyWindowListener myWindowListener;

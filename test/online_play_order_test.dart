@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sylvakru/online_music/online_play_order.dart';
+import 'package:mymusic/online_music/online_play_order.dart';
 
 void main() {
   test('列表循环按顺序走，末尾回绕', () {

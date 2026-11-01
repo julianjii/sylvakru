@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/portrait_view/my_app_bar.dart';
-import 'package:sylvakru/portrait_view/root_tab_bar.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/portrait_view/my_app_bar.dart';
+import 'package:mymusic/portrait_view/root_tab_bar.dart';
 
 /// The plain look of the portrait home: one top bar with the tab bar under it,
 /// the tab pages below. What the bars take has to match what the pages leave

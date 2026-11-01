@@ -4,8 +4,8 @@
 // 下载面板、窗口拖动区多处引用，放在页面文件里会让它们反向依赖页面。
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/color_manager.dart';
 
 /// 在线音乐页的配色。
 ///

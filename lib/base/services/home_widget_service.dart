@@ -3,13 +3,13 @@ import 'dart:typed_data';
 
 import 'package:home_widget/home_widget.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
-import 'package:sylvakru/base/utils/common_utils.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/services/picture_service.dart';
+import 'package:mymusic/base/utils/common_utils.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
 
 class HomeWidgetService {
   static Future<void> reloadNowPlayingWidget() async {

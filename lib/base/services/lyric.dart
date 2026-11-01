@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:charset/charset.dart';
 import 'package:xml/xml.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/base/services/webdav_client.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/utils/common_utils.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
+import 'package:mymusic/base/services/stream_client.dart';
+import 'package:mymusic/base/services/webdav_client.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/utils/common_utils.dart';
 
 class LyricToken {
   final Duration start;

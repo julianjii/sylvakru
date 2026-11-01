@@ -1,14 +1,14 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/asset_images.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/widgets/cover_art_widget.dart';
-import 'package:sylvakru/base/widgets/play_queue_sheet.dart';
-import 'package:sylvakru/base/utils/dynamic_lyrics_page_route.dart';
-import 'package:sylvakru/layer/lyrics_page_layer.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/asset_images.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/widgets/cover_art_widget.dart';
+import 'package:mymusic/base/widgets/play_queue_sheet.dart';
+import 'package:mymusic/base/utils/dynamic_lyrics_page_route.dart';
+import 'package:mymusic/layer/lyrics_page_layer.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class PlayBar extends StatelessWidget {

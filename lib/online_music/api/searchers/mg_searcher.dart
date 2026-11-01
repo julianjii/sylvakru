@@ -4,9 +4,9 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 
-import 'package:sylvakru/online_music/api/online_http.dart';
-import 'package:sylvakru/online_music/api/online_models.dart';
-import 'package:sylvakru/online_music/api/online_searcher.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/api/online_models.dart';
+import 'package:mymusic/online_music/api/online_searcher.dart';
 
 /// 咪咕。
 class MgSearcher implements OnlineSearcher {

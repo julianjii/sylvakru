@@ -4,7 +4,7 @@
 //
 // 上层（OnlineApiClient）只跟这里打交道，不直接碰引擎。
 
-import 'package:sylvakru/online_music/lx_js/lx_js_bridge.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_bridge.dart';
 
 /// 一个已导入的自定义源脚本。
 class LxScriptEntry {

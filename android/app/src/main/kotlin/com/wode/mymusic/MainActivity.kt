@@ -1,4 +1,4 @@
-package com.afalphy.sylvakru
+package com.wode.mymusic
 
 import com.ryanheise.audioservice.AudioServiceActivity
 
@@ -22,10 +22,10 @@ class MainActivity: AudioServiceActivity(), GamepadsCompatibleActivity {
         super.configureFlutterEngine(flutterEngine)
 
         // Reports the system HTTP proxy (Wi-Fi/global proxy); Dart reads it via
-        // the com.afalphy.system_proxy channel to route Dio and libmpv. VPN-mode
+        // the com.wode.system_proxy channel to route Dio and libmpv. VPN-mode
         // (TUN) proxies capture traffic transparently without a proxy config,
         // so this returns null then.
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.afalphy.system_proxy").setMethodCallHandler { call, result ->
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.wode.system_proxy").setMethodCallHandler { call, result ->
             when (call.method) {
                 "getProxy" -> result.success(getSystemProxy())
                 else -> result.notImplemented()

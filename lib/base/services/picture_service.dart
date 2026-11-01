@@ -8,12 +8,12 @@ import 'package:audio_tags_lofty/audio_tags_lofty.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/services/picture_load_scheduler.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/base/services/webdav_client.dart';
-import 'package:sylvakru/base/utils/path.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/services/picture_load_scheduler.dart';
+import 'package:mymusic/base/services/stream_client.dart';
+import 'package:mymusic/base/services/webdav_client.dart';
+import 'package:mymusic/base/utils/path.dart';
 
 List<MyPicture> globalPictureList = [];
 

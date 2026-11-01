@@ -1,10 +1,10 @@
 // 网易云音乐音源：接口与加密规则取自 lx-music 的 `musicSdk/wy/musicSearch.js`
 // 与 `songList.js`。
 
-import 'package:sylvakru/online_music/api/online_crypto.dart';
-import 'package:sylvakru/online_music/api/online_http.dart';
-import 'package:sylvakru/online_music/api/online_models.dart';
-import 'package:sylvakru/online_music/api/online_searcher.dart';
+import 'package:mymusic/online_music/api/online_crypto.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/api/online_models.dart';
+import 'package:mymusic/online_music/api/online_searcher.dart';
 
 /// 网易。搜索/歌单搜索走 eapi，歌单详情走 linuxapi。
 /// 请求体要加密，响应是明文 JSON（lx 请求层同样不解密）。

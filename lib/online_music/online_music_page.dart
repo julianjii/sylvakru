@@ -11,23 +11,23 @@ import 'dart:async';
 
 import 'package:audio_tags_lofty/audio_tags_lofty.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
-import 'package:sylvakru/base/services/lyric.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/online_music/online_cache.dart';
-import 'package:sylvakru/online_music/online_download.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
-import 'package:sylvakru/online_music/online_play_order.dart';
-import 'package:sylvakru/online_music/online_player_detail.dart';
-import 'package:sylvakru/online_music/online_search_controller.dart';
-import 'package:sylvakru/online_music/online_search_history.dart';
-import 'package:sylvakru/online_music/online_window_drag_area.dart';
-import 'package:sylvakru/online_music/theme/online_theme.dart';
-import 'package:sylvakru/online_music/widgets/online_notice.dart';
-import 'package:sylvakru/online_music/widgets/online_page_widgets.dart';
-import 'package:sylvakru/online_music/widgets/online_settings_dialog.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
+import 'package:mymusic/base/services/lyric.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
+import 'package:mymusic/online_music/online_cache.dart';
+import 'package:mymusic/online_music/online_download.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
+import 'package:mymusic/online_music/online_play_order.dart';
+import 'package:mymusic/online_music/online_player_detail.dart';
+import 'package:mymusic/online_music/online_search_controller.dart';
+import 'package:mymusic/online_music/online_search_history.dart';
+import 'package:mymusic/online_music/online_window_drag_area.dart';
+import 'package:mymusic/online_music/theme/online_theme.dart';
+import 'package:mymusic/online_music/widgets/online_notice.dart';
+import 'package:mymusic/online_music/widgets/online_page_widgets.dart';
+import 'package:mymusic/online_music/widgets/online_settings_dialog.dart';
 
 /// 全屏打开网络音乐播放界面。
 ///

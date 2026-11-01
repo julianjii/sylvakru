@@ -5,10 +5,10 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/services/stream_client.dart';
 
 class FeiniuClient extends StreamClient {
   String? _token;

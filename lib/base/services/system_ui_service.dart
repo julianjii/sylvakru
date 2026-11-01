@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:sylvakru/base/app.dart';
+import 'package:mymusic/base/app.dart';
 
 /// 是否启用重力感应旋屏。关掉后锁在当前方向，不再跟随设备转动。
 final autoRotateNotifier = ValueNotifier(true);

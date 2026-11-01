@@ -15,11 +15,11 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:quickjs_engine/quickjs_engine.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_crypto.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_polyfill.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_crypto.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_polyfill.dart';
 
-export 'package:sylvakru/online_music/lx_js/lx_js_crypto.dart'
+export 'package:mymusic/online_music/lx_js/lx_js_crypto.dart'
     show LxJsException;
 
 /// 宿主允许的 action（preload.js 的 supportActions）。已实现 musicUrl / lyric / pic。

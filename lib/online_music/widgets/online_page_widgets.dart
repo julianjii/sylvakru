@@ -4,11 +4,11 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/online_music/online_download.dart';
-import 'package:sylvakru/online_music/online_download_panel.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
-import 'package:sylvakru/online_music/theme/online_theme.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/online_music/online_download.dart';
+import 'package:mymusic/online_music/online_download_panel.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
+import 'package:mymusic/online_music/theme/online_theme.dart';
 
 /// 小圆角标签。不给 [color] 时用次级前景色。
 ///

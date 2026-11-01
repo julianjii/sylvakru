@@ -4,33 +4,33 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:http/http.dart' as http;
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/data/config.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/asset_images.dart';
-import 'package:sylvakru/base/services/emby_client.dart';
-import 'package:sylvakru/base/services/feiniu_client.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/services/navidrome_client.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/base/services/system_ui_service.dart';
-import 'package:sylvakru/base/utils/common_utils.dart';
-import 'package:sylvakru/base/utils/media_query.dart';
-import 'package:sylvakru/base/utils/source_type.dart';
-import 'package:sylvakru/base/widgets/connect_client_widget.dart';
-import 'package:sylvakru/base/widgets/equalizer.dart';
-import 'package:sylvakru/base/widgets/my_divider.dart';
-import 'package:sylvakru/base/data/setting.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
-import 'package:sylvakru/base/widgets/manage_music_folders.dart';
-import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/data/loader.dart';
-import 'package:sylvakru/portrait_view/sleep_timer.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/base/widgets/my_switch.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/data/config.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/asset_images.dart';
+import 'package:mymusic/base/services/emby_client.dart';
+import 'package:mymusic/base/services/feiniu_client.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/services/navidrome_client.dart';
+import 'package:mymusic/base/services/stream_client.dart';
+import 'package:mymusic/base/services/system_ui_service.dart';
+import 'package:mymusic/base/utils/common_utils.dart';
+import 'package:mymusic/base/utils/media_query.dart';
+import 'package:mymusic/base/utils/source_type.dart';
+import 'package:mymusic/base/widgets/connect_client_widget.dart';
+import 'package:mymusic/base/widgets/equalizer.dart';
+import 'package:mymusic/base/widgets/my_divider.dart';
+import 'package:mymusic/base/data/setting.dart';
+import 'package:mymusic/layer/layers_manager.dart';
+import 'package:mymusic/base/widgets/manage_music_folders.dart';
+import 'package:mymusic/base/data/library.dart';
+import 'package:mymusic/base/data/loader.dart';
+import 'package:mymusic/portrait_view/sleep_timer.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/base/widgets/my_switch.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -914,7 +914,7 @@ class _SettingsListState extends State<SettingsList> {
       title: Text(l10n.checkUpdate),
       onTap: () async {
         final url = Uri.parse(
-          'https://api.github.com/repos/JulianJii/sylvakru/releases/latest',
+          'https://api.github.com/repos/JulianJii/mymusic/releases/latest',
         );
 
         try {
@@ -985,7 +985,7 @@ class _SettingsListState extends State<SettingsList> {
                                 ElevatedButton(
                                   onPressed: () => launchUrl(
                                     Uri.parse(
-                                      "https://github.com/JulianJii/sylvakru/releases/latest",
+                                      "https://github.com/JulianJii/mymusic/releases/latest",
                                     ),
                                   ),
                                   style: ElevatedButton.styleFrom(
@@ -1073,7 +1073,7 @@ class _SettingsListState extends State<SettingsList> {
                                 } else {
                                   result = '${appDocsDir.path}/logs';
                                   logger.export2Directory(result);
-                                  showCenterMessage('Export to Sylvakru/logs');
+                                  showCenterMessage('Export to MyMusic/logs');
                                 }
                               },
                               child: Text(l10n.exportLog),

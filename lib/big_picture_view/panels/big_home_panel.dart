@@ -1,21 +1,21 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
-import 'package:sylvakru/base/data/artist_album.dart';
-import 'package:sylvakru/base/data/history.dart';
-import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
-import 'package:sylvakru/base/utils/media_query.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/base/utils/zoom_page_route.dart';
-import 'package:sylvakru/base/widgets/cover_art_widget.dart';
-import 'package:sylvakru/base/widgets/scale_widget.dart';
-import 'package:sylvakru/big_picture_view/panels/big_single_album_panel.dart';
-import 'package:sylvakru/big_picture_view/panels/big_single_artist_panel.dart';
-import 'package:sylvakru/big_picture_view/panels/big_single_folder_panel.dart';
-import 'package:sylvakru/big_picture_view/panels/big_single_playlist_panel.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
+import 'package:mymusic/base/data/artist_album.dart';
+import 'package:mymusic/base/data/history.dart';
+import 'package:mymusic/base/data/library.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/services/picture_service.dart';
+import 'package:mymusic/base/utils/media_query.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
+import 'package:mymusic/base/utils/zoom_page_route.dart';
+import 'package:mymusic/base/widgets/cover_art_widget.dart';
+import 'package:mymusic/base/widgets/scale_widget.dart';
+import 'package:mymusic/big_picture_view/panels/big_single_album_panel.dart';
+import 'package:mymusic/big_picture_view/panels/big_single_artist_panel.dart';
+import 'package:mymusic/big_picture_view/panels/big_single_folder_panel.dart';
+import 'package:mymusic/big_picture_view/panels/big_single_playlist_panel.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
 
 class BigHomePanel extends StatefulWidget {
   const BigHomePanel({super.key});

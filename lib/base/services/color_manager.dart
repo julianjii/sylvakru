@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/utils/contrast_color_generator.dart';
-import 'package:sylvakru/layer/lyrics_page_layer.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/utils/contrast_color_generator.dart';
+import 'package:mymusic/layer/lyrics_page_layer.dart';
 
 final colorManager = ColorManager();
 

@@ -10,7 +10,7 @@ import 'dart:io';
 import 'package:charset/charset.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:sylvakru/online_music/api/online_models.dart';
+import 'package:mymusic/online_music/api/online_models.dart';
 
 /// lx-music 对**所有**请求都带这个 UA，酷我/咪咕的接口都依赖它。
 const String lxUserAgent =

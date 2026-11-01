@@ -1,11 +1,11 @@
 import 'package:lpinyin/lpinyin.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/data/setting.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
+import 'package:mymusic/base/data/library.dart';
+import 'package:mymusic/base/data/setting.dart';
+import 'package:mymusic/base/services/picture_service.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
+import 'package:mymusic/layer/layers_manager.dart';
 
 final artistAlbumManager = ArtistAlbumManager();
 

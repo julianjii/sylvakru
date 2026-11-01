@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/webdav_client.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/webdav_client.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
 import 'package:path/path.dart';
 
 class WebdavDirPicker extends StatefulWidget {

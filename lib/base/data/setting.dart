@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/widgets/lyric_list_view.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/system_ui_service.dart';
-import 'package:sylvakru/base/utils/path.dart';
-import 'package:sylvakru/base/widgets/manage_music_folders.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/widgets/lyric_list_view.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/system_ui_service.dart';
+import 'package:mymusic/base/utils/path.dart';
+import 'package:mymusic/base/widgets/manage_music_folders.dart';
 
 final artistsIsListViewNotifier = ValueNotifier(true);
 final artistsIsAscendingNotifier = ValueNotifier(true);

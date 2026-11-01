@@ -5,11 +5,11 @@
 
 import 'package:material_ui/material_ui.dart';
 
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/online_music/online_cache.dart';
-import 'package:sylvakru/online_music/online_download.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
-import 'package:sylvakru/online_music/online_search_history.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/online_music/online_cache.dart';
+import 'package:mymusic/online_music/online_download.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
+import 'package:mymusic/online_music/online_search_history.dart';
 
 /// 歌单曲目每页条数。歌单详情接口不给总数，有没有下一页就看这一页满没满。
 const int _playlistTrackPageSize = 50;

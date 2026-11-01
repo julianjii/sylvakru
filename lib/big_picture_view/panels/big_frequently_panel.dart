@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/data/history.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
+import 'package:mymusic/base/data/history.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
 
-import 'package:sylvakru/big_picture_view/panels/big_song_list_base_panel.dart';
+import 'package:mymusic/big_picture_view/panels/big_song_list_base_panel.dart';
 
 class BigFrequentlyPanel extends StatelessWidget {
   const BigFrequentlyPanel({super.key});

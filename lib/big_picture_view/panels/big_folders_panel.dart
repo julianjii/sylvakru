@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:smooth_corner/smooth_corner.dart';
-import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/utils/media_query.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/base/utils/zoom_page_route.dart';
-import 'package:sylvakru/base/widgets/cover_art_widget.dart';
-import 'package:sylvakru/big_picture_view/panels/big_single_folder_panel.dart';
+import 'package:mymusic/base/data/library.dart';
+import 'package:mymusic/base/utils/media_query.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
+import 'package:mymusic/base/utils/zoom_page_route.dart';
+import 'package:mymusic/base/widgets/cover_art_widget.dart';
+import 'package:mymusic/big_picture_view/panels/big_single_folder_panel.dart';
 
 class BigFoldersPanel extends StatefulWidget {
   const BigFoldersPanel({super.key});

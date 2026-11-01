@@ -3,9 +3,9 @@
 
 import 'dart:convert';
 
-import 'package:sylvakru/online_music/api/online_http.dart';
-import 'package:sylvakru/online_music/api/online_models.dart';
-import 'package:sylvakru/online_music/api/online_searcher.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/api/online_models.dart';
+import 'package:mymusic/online_music/api/online_searcher.dart';
 
 /// 酷狗。搜索无加密；歌单详情抓页面 HTML 拿 hash 列表后
 /// 走 gateway 批量接口换详情。

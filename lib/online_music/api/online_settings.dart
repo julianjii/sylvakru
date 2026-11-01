@@ -5,10 +5,10 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/online_music/api/online_http.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_source.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_source.dart';
 
 /// 在线音乐的本地设置：自定义源脚本（可多个）、默认音质、下载目录。
 class OnlineSettings {

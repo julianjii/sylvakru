@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/landscape_view/sidebar.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
-import 'package:sylvakru/portrait_view/my_app_bar.dart';
-import 'package:sylvakru/portrait_view/play_bar.dart';
-import 'package:sylvakru/portrait_view/root_tab_bar.dart';
+import 'package:mymusic/landscape_view/sidebar.dart';
+import 'package:mymusic/layer/layers_manager.dart';
+import 'package:mymusic/portrait_view/my_app_bar.dart';
+import 'package:mymusic/portrait_view/play_bar.dart';
+import 'package:mymusic/portrait_view/root_tab_bar.dart';
 
 /// The narrow home: one top bar and one tab bar on top, the tab pages loaded in
 /// below as the content, so the tab bar lives here instead of being repeated by

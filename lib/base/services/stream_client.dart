@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
 
 StreamClient? streamClient;
 

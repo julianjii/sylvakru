@@ -1,10 +1,10 @@
 // 下载管理面板：查看/控制在线音乐的下载任务，以及选择、打开下载目录。
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/online_music/online_download.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
-import 'package:sylvakru/online_music/theme/online_theme.dart';
-import 'package:sylvakru/online_music/widgets/online_page_widgets.dart';
+import 'package:mymusic/online_music/online_download.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
+import 'package:mymusic/online_music/theme/online_theme.dart';
+import 'package:mymusic/online_music/widgets/online_page_widgets.dart';
 
 /// 以对话框形式打开下载管理面板。
 Future<void> openDownloadPanel(BuildContext context) {

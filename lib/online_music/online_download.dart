@@ -16,9 +16,9 @@ import 'package:flutter/foundation.dart';
 import 'package:open_folder/open_folder.dart';
 import 'package:path/path.dart' as p;
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
 
 enum OnlineDownloadState {
   /// 正在由自定义源脚本解析播放直链。

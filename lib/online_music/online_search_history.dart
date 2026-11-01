@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sylvakru/base/services/logger.dart';
+import 'package:mymusic/base/services/logger.dart';
 
 /// 在线音乐搜索历史记录管理类。
 ///

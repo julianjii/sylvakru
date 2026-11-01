@@ -5,7 +5,7 @@
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/online_music/theme/online_theme.dart';
+import 'package:mymusic/online_music/theme/online_theme.dart';
 
 /// 当前挂在屏上的通知。同一时刻只留一条：新的一条直接把上一条顶掉。
 OverlayEntry? _noticeEntry;

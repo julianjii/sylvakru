@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/services/home_widget_service.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/services/picture_service.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/base/utils/path.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/services/home_widget_service.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/services/picture_service.dart';
+import 'package:mymusic/base/services/stream_client.dart';
+import 'package:mymusic/base/utils/path.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
+import 'package:mymusic/base/data/library.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
 
 final playlistManager = PlaylistManager();
 
@@ -29,7 +29,7 @@ class PlaylistManager {
 
   Future<void> _prepareForLoad() async {
     _playlistsFile = File(
-      "${getPlaylistConfigPath(sourceType)}/sylvakru_playlists.json",
+      "${getPlaylistConfigPath(sourceType)}/mymusic_playlists.json",
     );
     initFile(_playlistsFile, true);
 
@@ -48,13 +48,13 @@ class PlaylistManager {
 
   Future<void> _prepareForSync() async {
     _playlistsFile = File(
-      "${getPlaylistConfigPath(sourceType)}/sylvakru_playlists.json",
+      "${getPlaylistConfigPath(sourceType)}/mymusic_playlists.json",
     );
     initFile(_playlistsFile, true);
     if (isStreamSource) {
       final tmpPlaylist = await streamClient?.getPlaylists();
       for (final playlist in tmpPlaylist ?? <Playlist>[]) {
-        if (playlist.name == '_sylvakru_play_queue_') {
+        if (playlist.name == '_mymusic_play_queue_') {
           streamClient?.deletePlaylist(playlist.id!);
           continue;
         }

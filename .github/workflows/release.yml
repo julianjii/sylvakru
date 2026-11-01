@@ -62,7 +62,7 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       # 签名密钥（可选）。仓库 Settings → Secrets：
-      #   ANDROID_KEYSTORE_BASE64 = base64 -w0 android/sylvakru-release.jks
+      #   ANDROID_KEYSTORE_BASE64 = base64 -w0 android/mymusic-release.jks
       #   ANDROID_KEYSTORE_PASSWORD / ANDROID_KEY_PASSWORD / ANDROID_KEY_ALIAS
       - name: Prepare signing
         if: env.KEYSTORE_BASE64 != ''
@@ -71,8 +71,8 @@ jobs:
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > android/sylvakru-release.jks
-          printf 'storePassword=%s\nkeyPassword=%s\nkeyAlias=%s\nstoreFile=../sylvakru-release.jks\n' \
+          echo "$KEYSTORE_BASE64" | base64 -d > android/mymusic-release.jks
+          printf 'storePassword=%s\nkeyPassword=%s\nkeyAlias=%s\nstoreFile=../mymusic-release.jks\n' \
             "$STORE_PASSWORD" "$KEY_PASSWORD" "$KEY_ALIAS" > android/key.properties
 
       - run: flutter build apk --release --split-per-abi
@@ -107,9 +107,9 @@ jobs:
       - run: flutter build windows --release
 
       - name: Package
-        run: Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath sylvakru-windows-x64.zip
+        run: Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath mymusic-windows-x64.zip
 
       - name: Upload to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "${{ needs.android.outputs.tag }}" sylvakru-windows-x64.zip --clobber
+        run: gh release upload "${{ needs.android.outputs.tag }}" mymusic-windows-x64.zip --clobber

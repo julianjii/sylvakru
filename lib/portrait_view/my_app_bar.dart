@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/layer/layers_manager.dart';
 
 /// The one top bar the portrait pages share.
 ///
@@ -75,7 +75,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         // itself (or shows nothing)
         final titleText = _isDetail
             ? title
-            : AppLocalizations.of(context).sylvakru;
+            : AppLocalizations.of(context).mymusic;
         return AppBar(
           automaticallyImplyLeading: false,
           bottom: bottom,

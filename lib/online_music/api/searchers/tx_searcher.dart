@@ -4,10 +4,10 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:sylvakru/online_music/api/online_crypto.dart';
-import 'package:sylvakru/online_music/api/online_http.dart';
-import 'package:sylvakru/online_music/api/online_models.dart';
-import 'package:sylvakru/online_music/api/online_searcher.dart';
+import 'package:mymusic/online_music/api/online_crypto.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/api/online_models.dart';
+import 'package:mymusic/online_music/api/online_searcher.dart';
 
 /// QQ 音乐。搜索走 musics.fcg + zzcSign；歌单搜索/详情是普通
 /// GET/POST，不需要签名。

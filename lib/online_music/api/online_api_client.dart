@@ -7,13 +7,13 @@
 //   3. 校验脚本返回的直链是 http(s) 且长度合规
 //   4. 封面按 lx-music 的 `getPic` 口径取
 
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/online_music/api/online_crypto.dart';
-import 'package:sylvakru/online_music/api/online_http.dart';
-import 'package:sylvakru/online_music/api/online_models.dart';
-import 'package:sylvakru/online_music/api/online_settings.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_bridge.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_source.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/online_music/api/online_crypto.dart';
+import 'package:mymusic/online_music/api/online_http.dart';
+import 'package:mymusic/online_music/api/online_models.dart';
+import 'package:mymusic/online_music/api/online_settings.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_bridge.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_source.dart';
 
 class OnlineApiClient {
   /// `source|songmid|quality` -> 直链。

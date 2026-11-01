@@ -1,17 +1,17 @@
 import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/asset_images.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/base/services/keyboard.dart';
-import 'package:sylvakru/base/services/my_window_listener.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
-import 'package:sylvakru/layer/lyrics_page_layer.dart';
-import 'package:sylvakru/mini_view/mini_view.dart';
-import 'package:sylvakru/online_music/online_music_page.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/asset_images.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/base/services/keyboard.dart';
+import 'package:mymusic/base/services/my_window_listener.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/layer/layers_manager.dart';
+import 'package:mymusic/layer/lyrics_page_layer.dart';
+import 'package:mymusic/mini_view/mini_view.dart';
+import 'package:mymusic/online_music/online_music_page.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:window_manager/window_manager.dart';
 

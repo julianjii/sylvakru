@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/audio_handler.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/utils/common_utils.dart';
-import 'package:sylvakru/base/utils/media_query.dart';
-import 'package:sylvakru/base/utils/metadata_utils.dart';
-import 'package:sylvakru/base/widgets/full_width_track_shape.dart';
+import 'package:mymusic/base/audio_handler.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/utils/common_utils.dart';
+import 'package:mymusic/base/utils/media_query.dart';
+import 'package:mymusic/base/utils/metadata_utils.dart';
+import 'package:mymusic/base/widgets/full_width_track_shape.dart';
 
 class SeekBar extends StatefulWidget {
   final Color? color;

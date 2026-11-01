@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/emby_client.dart';
-import 'package:sylvakru/base/services/feiniu_client.dart';
-import 'package:sylvakru/base/services/stream_client.dart';
-import 'package:sylvakru/base/data/library.dart';
-import 'package:sylvakru/base/my_audio_metadata.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/emby_client.dart';
+import 'package:mymusic/base/services/feiniu_client.dart';
+import 'package:mymusic/base/services/stream_client.dart';
+import 'package:mymusic/base/data/library.dart';
+import 'package:mymusic/base/my_audio_metadata.dart';
 
 final history = History();
 

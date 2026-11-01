@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/data/playlist.dart';
-import 'package:sylvakru/base/data/setting.dart';
-import 'package:sylvakru/base/widgets/collection_list.dart';
-import 'package:sylvakru/base/widgets/playlist_widgets.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
-import 'package:sylvakru/base/asset_images.dart';
+import 'package:mymusic/base/data/playlist.dart';
+import 'package:mymusic/base/data/setting.dart';
+import 'package:mymusic/base/widgets/collection_list.dart';
+import 'package:mymusic/base/widgets/playlist_widgets.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/layer/layers_manager.dart';
+import 'package:mymusic/base/asset_images.dart';
 
 final GlobalKey<NavigatorState> playlistsKey = GlobalKey();
 final playlistsVisibleNotifier = ValueNotifier(true);

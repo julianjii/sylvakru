@@ -4,14 +4,14 @@
 
 import 'package:file_picker/file_picker.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_source.dart';
-import 'package:sylvakru/online_music/online_cache.dart';
-import 'package:sylvakru/online_music/online_download.dart';
-import 'package:sylvakru/online_music/online_music_api.dart';
-import 'package:sylvakru/online_music/theme/online_theme.dart';
-import 'package:sylvakru/online_music/widgets/online_notice.dart';
-import 'package:sylvakru/online_music/widgets/online_page_widgets.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_source.dart';
+import 'package:mymusic/online_music/online_cache.dart';
+import 'package:mymusic/online_music/online_download.dart';
+import 'package:mymusic/online_music/online_music_api.dart';
+import 'package:mymusic/online_music/theme/online_theme.dart';
+import 'package:mymusic/online_music/widgets/online_notice.dart';
+import 'package:mymusic/online_music/widgets/online_page_widgets.dart';
 
 enum _SettingsSection { source, download, cache }
 
@@ -178,7 +178,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                       layoutBuilder: (current, previous) => Stack(
                         fit: StackFit.expand,
                         alignment: Alignment.topLeft,
-                        children: [...previous, if (current != null) current],
+                        children: [...previous, ?current],
                       ),
                       child: SingleChildScrollView(
                         key: ValueKey(_section),

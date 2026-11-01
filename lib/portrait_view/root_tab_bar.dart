@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/services/interaction.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
-import 'package:sylvakru/online_music/online_music_page.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/services/interaction.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/layer/layers_manager.dart';
+import 'package:mymusic/online_music/online_music_page.dart';
 
 // the root tabs, in the order the app shows them
 const List<String> rootLayerLabels = <String>[

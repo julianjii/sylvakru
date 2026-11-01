@@ -6,21 +6,21 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gamepads/flutter_gamepads.dart';
 import 'package:liquid_glass_widgets/liquid_glass_setup.dart';
-import 'package:sylvakru/base/services/color_manager.dart';
-import 'package:sylvakru/base/app.dart';
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/base/services/proxy_service.dart';
-import 'package:sylvakru/base/services/keyboard.dart';
-import 'package:sylvakru/base/services/my_tray_listener.dart';
-import 'package:sylvakru/base/services/my_window_listener.dart';
-import 'package:sylvakru/base/services/single_instance.dart';
-import 'package:sylvakru/base/services/system_ui_service.dart';
-import 'package:sylvakru/l10n/generated/app_localizations.dart';
-import 'package:sylvakru/l10n/generated/app_localizations_en.dart';
-import 'package:sylvakru/base/data/loader.dart';
-import 'package:sylvakru/layer/layers_manager.dart';
-import 'package:sylvakru/portrait_view/custom_page_transition_builder.dart';
-import 'package:sylvakru/view_entry.dart';
+import 'package:mymusic/base/services/color_manager.dart';
+import 'package:mymusic/base/app.dart';
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/base/services/proxy_service.dart';
+import 'package:mymusic/base/services/keyboard.dart';
+import 'package:mymusic/base/services/my_tray_listener.dart';
+import 'package:mymusic/base/services/my_window_listener.dart';
+import 'package:mymusic/base/services/single_instance.dart';
+import 'package:mymusic/base/services/system_ui_service.dart';
+import 'package:mymusic/l10n/generated/app_localizations.dart';
+import 'package:mymusic/l10n/generated/app_localizations_en.dart';
+import 'package:mymusic/base/data/loader.dart';
+import 'package:mymusic/layer/layers_manager.dart';
+import 'package:mymusic/portrait_view/custom_page_transition_builder.dart';
+import 'package:mymusic/view_entry.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:smooth_corner/smooth_corner.dart';
@@ -54,7 +54,7 @@ Future<void> main() async {
 
   await logger.init();
   if (isMobile) {
-    await HomeWidget.setAppGroupId('group.com.afalphy.sylvakru');
+    await HomeWidget.setAppGroupId('group.com.wode.mymusic');
   } else {
     if (kReleaseMode) {
       await SingleInstance.start();
@@ -111,7 +111,7 @@ Future<void> main() async {
             ...GlobalMaterialLocalizations.delegates,
           ],
           navigatorKey: globalNavigatorKey,
-          title: 'Sylvakru',
+          title: 'MyMusic',
           theme: ThemeData(
             focusColor: lightHoverFocusColorNotifier.value
                 ? Colors.white.withAlpha(20)

@@ -12,11 +12,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sylvakru/base/app.dart' as app;
-import 'package:sylvakru/base/services/logger.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_bridge.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_example.dart';
-import 'package:sylvakru/online_music/lx_js/lx_js_source.dart';
+import 'package:mymusic/base/app.dart' as app;
+import 'package:mymusic/base/services/logger.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_bridge.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_example.dart';
+import 'package:mymusic/online_music/lx_js/lx_js_source.dart';
 
 const String _aesKey = '2b7e151628aed2a6abf7158809cf4f3c';
 const String _aesIv = '000102030405060708090a0b0c0d0e0f';
