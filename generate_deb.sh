@@ -3,7 +3,7 @@
 # ---------- CONFIG ----------
 BINARY_NAME="mymusic"
 APP_NAME="MyMusic"
-APP_VERSION="4.5.1"
+APP_VERSION="4.6.1"
 MAINTAINER="julianjii"
 
 BUNDLE_DIR="build/linux/x64/release/bundle"

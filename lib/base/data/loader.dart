@@ -52,6 +52,7 @@ class Loader {
     colorManager.updateColors();
 
     await fontManager.loadFonts();
+    library = Library();
   }
 
   static Future<void> load() async {

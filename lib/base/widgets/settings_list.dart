@@ -31,6 +31,7 @@ import 'package:mymusic/base/data/loader.dart';
 import 'package:mymusic/portrait_view/sleep_timer.dart';
 import 'package:mymusic/l10n/generated/app_localizations.dart';
 import 'package:mymusic/base/widgets/my_switch.dart';
+import 'package:mymusic/base/widgets/lyric_list_view.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -75,10 +76,10 @@ class _SettingsListState extends State<SettingsList> {
                   subtitle: Text(
                     l10n.settingCount(
                       (Platform.isAndroid
-                              ? 18
+                              ? 19
                               : Platform.isIOS
-                              ? 17
-                              : 14) +
+                              ? 18
+                              : 15) +
                           (isNotStreamSource ? 1 : 0),
                     ),
                     style: TextStyle(fontSize: 12),
@@ -134,6 +135,9 @@ class _SettingsListState extends State<SettingsList> {
         sliverBox(
           paddingIfNeed(isLandscape, controlCenterLyricsListTile(l10n)),
         ),
+
+        sliverBox(paddingIfNeed(isLandscape, lyricsWaveListTile(l10n))),
+
 
         if (isMobile && !isTV)
           sliverBox(paddingIfNeed(isLandscape, vibrationListTile(l10n))),
@@ -578,6 +582,26 @@ class _SettingsListState extends State<SettingsList> {
       ),
     );
   }
+
+  Widget lyricsWaveListTile(AppLocalizations l10n) {
+    return ListTile(
+      leading: Transform.scale(
+        scale: 0.9,
+        child: Icon(Icons.waves_rounded, size: iconSize),
+      ),
+      title: Text(l10n.lyricsWave),
+      trailing: SizedBox(
+        width: 50,
+        child: MySwitch(
+          valueNotifier: lyricWaveEnabledNotifier,
+          onToggleCallBack: () {
+            setting.save();
+          },
+        ),
+      ),
+    );
+  }
+
 
   Widget vibrationListTile(AppLocalizations l10n) {
     return ListTile(

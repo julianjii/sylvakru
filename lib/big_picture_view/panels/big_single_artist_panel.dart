@@ -32,17 +32,8 @@ class BigSingleArtistPanel extends StatefulWidget {
 class _BigSingleArtistPanelState extends State<BigSingleArtistPanel> {
   final _scrollController = ScrollController();
 
-  void update() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
   @override
   void dispose() {
-    if (isStreamSource) {
-      widget.artist.changeNotifier.removeListener(update);
-    }
     _scrollController.dispose();
     super.dispose();
   }

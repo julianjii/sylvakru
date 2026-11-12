@@ -17,6 +17,7 @@ import 'package:mymusic/base/services/single_instance.dart';
 import 'package:mymusic/base/services/system_ui_service.dart';
 import 'package:mymusic/l10n/generated/app_localizations.dart';
 import 'package:mymusic/l10n/generated/app_localizations_en.dart';
+import 'package:mymusic/base/data/library.dart';
 import 'package:mymusic/base/data/loader.dart';
 import 'package:mymusic/layer/layers_manager.dart';
 import 'package:mymusic/portrait_view/custom_page_transition_builder.dart';
@@ -82,7 +83,7 @@ Future<void> main() async {
     FocusManager.instance.highlightStrategy =
         FocusHighlightStrategy.alwaysTraditional;
   } else if (viewModeNotifier.value != .bigPicture && !firstLaunch) {
-    layersManager.switchRootLayer('home');
+    layersManager.switchRootLayer(sidebarDefaultItemNotifier.value);
   }
 
   runApp(

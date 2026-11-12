@@ -596,8 +596,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get controlCenterLyrics => '控制中心歌词';
 
   @override
+  String get lyricsWave => '歌词波浪滚动';
+
+  @override
   String get connect => '连接';
 
   @override
   String get notConnected => '未连接';
+
+  @override
+  String get edit => '编辑';
 }

@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
+
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:media_kit/media_kit.dart';
@@ -60,6 +62,11 @@ final autoPlayOnStartupNotifier = ValueNotifier(false);
 
 final currentLyricsIndexNotifier = ValueNotifier(-1);
 
+/// Indices of the simultaneously active lyric lines, updated alongside
+/// [currentLyricsIndexNotifier] but only when the set actually changes (a
+/// line boundary), so the rows don't rebuild on every position tick.
+final lyricsActiveIndicesNotifier = ValueNotifier<List<int>>(const []);
+
 final controlCenterLyricsNotifier = ValueNotifier(false);
 
 bool loadingSong = false;
@@ -98,7 +105,7 @@ Future<void> initAudioService() async {
       }
     });
 
-    if (isMobile) {
+    if (Platform.isIOS) {
       const channel = MethodChannel('com.wode.audio_control');
 
       channel.setMethodCallHandler((call) async {
@@ -179,6 +186,10 @@ class MyAudioHandler extends BaseAudioHandler {
   /// 先结束的那次不能提前解锁。
   int _loadGeneration = 0;
 
+  // Last active-line set pushed to the iOS widget ('-1' = none), so the
+  // widget only reloads when the simultaneous-lyric set actually changes.
+  String _lastWidgetLyricsActive = '-1';
+
   File? _playQueueState;
   late File _playState;
   late File _equalizerState;
@@ -231,6 +242,11 @@ class MyAudioHandler extends BaseAudioHandler {
           await pause();
           return;
         }
+
+        if (needPause) {
+          await pause();
+        }
+
         if (playModeNotifier.value == 2) {
           // repeat
           await load();
@@ -272,10 +288,25 @@ class MyAudioHandler extends BaseAudioHandler {
 
     position += Duration(milliseconds: currentSong.lyricsTimeOffset);
 
+    // The rows and the iOS widget both highlight every simultaneously
+    // active line (duet), so track that set independently of the primary
+    // index — with overlapping lines its boundaries differ from the index's.
+    // Computed before the fast path below so a set change is never swallowed
+    // by it, and pushed only when it actually changes (line boundaries),
+    // never on every position tick.
+    final active = activeLyricIndices(lines, position);
+    if (!listEquals(active, lyricsActiveIndicesNotifier.value)) {
+      lyricsActiveIndicesNotifier.value = active;
+    }
+    final widgetActive = active.isEmpty ? '-1' : active.join(',');
+    final widgetActiveChanged = widgetActive != _lastWidgetLyricsActive;
+    _lastWidgetLyricsActive = widgetActive;
+
     if (tmp >= 0 &&
         tmp + 1 < lines.length &&
         position >= lines[tmp].start &&
-        position <= lines[tmp + 1].start) {
+        position <= lines[tmp + 1].start &&
+        !widgetActiveChanged) {
       return;
     }
 
@@ -294,17 +325,18 @@ class MyAudioHandler extends BaseAudioHandler {
       }
     }
 
-    if (current != currentLyricsIndexNotifier.value) {
+    final indexChanged = current != currentLyricsIndexNotifier.value;
+    if (indexChanged) {
       currentLyricsIndexNotifier.value = current;
 
       if (controlCenterLyricsNotifier.value) {
         updateServiceMediaItem(currentSong, lyric: lines[current].text);
         updatePlaybackState();
       }
+    }
 
-      if (Platform.isIOS) {
-        HomeWidgetService.updateLyricsIndex();
-      }
+    if ((indexChanged || widgetActiveChanged) && Platform.isIOS) {
+      HomeWidgetService.updateLyricsIndex(active);
     }
   }
 
@@ -770,11 +802,6 @@ class MyAudioHandler extends BaseAudioHandler {
       if (buffering) {
         _loadGraceSawBuffering = true;
       } else if (_loadGraceSawBuffering) {
-        if (needPause) {
-          // ensure widget is updated
-          await Future.delayed(Duration(milliseconds: 500));
-          await pause();
-        }
         _endLoadGrace();
       }
     });
@@ -871,6 +898,14 @@ class MyAudioHandler extends BaseAudioHandler {
       currentSongNotifier.value = currentSong;
 
       currentLyricsIndexNotifier.value = -1;
+      lyricsActiveIndicesNotifier.value = const [];
+      _lastWidgetLyricsActive = '-1';
+
+      if (Platform.isIOS) {
+        await HomeWidgetService.updateNowPlayingWidget();
+        // update colors
+        await HomeWidgetService.reloadPlaylistsWidget();
+      }
 
       try {
         if (isPlayingNotifier.value) {

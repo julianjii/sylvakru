@@ -19,9 +19,11 @@ import 'package:mymusic/layer/layers_manager.dart';
 import 'package:mymusic/base/my_audio_metadata.dart';
 import 'package:pool/pool.dart';
 
-Library library = Library();
+late Library library;
 
 final ValueNotifier<double> cacheSizeNotifier = ValueNotifier(0);
+final sidebarItemsNotifier = ValueNotifier(<String>[]);
+final sidebarDefaultItemNotifier = ValueNotifier('');
 
 class Library {
   MetadataDB? _metadataDB;
@@ -48,6 +50,13 @@ class Library {
   List<Folder> folderList = [];
   final folderListChangeNotifier = ValueNotifier(0);
 
+  /// Sort mode of the all-songs list, persisted per source type so every
+  /// music source remembers its own ordering.
+  final sortTypeNotifier = ValueNotifier(0);
+  late final File _sortTypeFile;
+
+  late final File _sidebarItemFile;
+
   bool canModify = false;
 
   Library() {
@@ -59,6 +68,59 @@ class Library {
       );
       initFile(_folderIdListFile!, true);
     }
+    _sortTypeFile = File("${getLibraryConfigPath(sourceType)}/sort_type.json");
+    initFile(_sortTypeFile, false);
+    _loadSortType();
+    sortTypeNotifier.addListener(_saveSortType);
+
+    _sidebarItemFile = File('${getDirPathFrom(sourceType)}/sidebar_item.json');
+    initFile(_sidebarItemFile, false);
+    _loadSidebarItem();
+  }
+
+  void _loadSidebarItem() {
+    final sidebarItemMap = readJsonMapFileSync(_sidebarItemFile);
+    final sidebarItems = sidebarItemMap['sidebarItems'];
+
+    if (sidebarItems is List) {
+      sidebarItemsNotifier.value = List.from(sidebarItems);
+    } else {
+      sidebarItemsNotifier.value = [
+        'home',
+        'artists',
+        'albums',
+        if (isNotStreamSource) 'folders',
+        'songs',
+      ];
+    }
+    final sidebarDefaultItem = sidebarItemMap['default'];
+    if (sidebarDefaultItem is String) {
+      sidebarDefaultItemNotifier.value = sidebarDefaultItem;
+    } else {
+      sidebarDefaultItemNotifier.value = 'home';
+    }
+  }
+
+  void saveSidebarItem() {
+    _sidebarItemFile.writeAsStringSync(
+      jsonEncode({
+        'sidebarItems': sidebarItemsNotifier.value,
+        'default': sidebarDefaultItemNotifier.value,
+      }),
+    );
+  }
+
+  void _loadSortType() {
+    final value = readJsonMapFileSync(_sortTypeFile)['sortType'];
+    if (value is int) {
+      sortTypeNotifier.value = value;
+    }
+  }
+
+  void _saveSortType() {
+    _sortTypeFile.writeAsStringSync(
+      jsonEncode({'sortType': sortTypeNotifier.value}),
+    );
   }
 
   Future<bool> updateFolders(List<String> idList) async {
