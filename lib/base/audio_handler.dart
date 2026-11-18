@@ -198,6 +198,17 @@ class MyAudioHandler extends BaseAudioHandler {
   Timer? _positionTimer;
   Timer? _stallTimer;
 
+  /// 看门狗最多在「播放器仍报告缓冲中」时多等几轮（每轮 10s），
+  /// 免得弱网首缓冲超过 10s 的合法流被误判成卡死。
+  static const int _maxStallRetries = 3;
+
+  /// 连续多少首都没走出进度就停止自动切歌。否则服务器挂掉 / 直链全过期时，
+  /// 队列会被 10s 一首地无声轮一遍，网络恢复后还会突然开始播。
+  static const int _maxSkipsWithoutProgress = 3;
+
+  int _stallRetries = 0;
+  int _skipsWithoutProgress = 0;
+
   // iOS background-execution grace for the current load (see _beginLoadGrace).
   StreamSubscription<bool>? _loadGraceSub;
   int? _loadGraceToken;
@@ -228,37 +239,57 @@ class MyAudioHandler extends BaseAudioHandler {
     });
 
     _player.stream.completed.listen((completed) async {
-      if (completed) {
-        final position = _player.state.position;
-        final duration = _player.state.duration;
+      if (!completed) return;
 
-        // fake completed
-        if ((duration - position).inSeconds > 2) {
-          await pause();
-          return;
-        }
+      // 换歌途中，旧曲抛出的 EOF 不能算数，否则会再切一次歌。
+      if (loadingSong) return;
 
-        if (Loader.busy) {
-          await pause();
-          return;
-        }
+      final position = _player.state.position;
+      final duration = _player.state.duration;
 
-        if (needPause) {
-          await pause();
-        }
-
-        if (playModeNotifier.value == 2) {
-          // repeat
-          await load();
-        } else {
-          await skipToNext(); // automatically go to next song
-        }
+      // fake completed：时长已知但明显没走到结尾，说明是流中断 / 解码失败，
+      // 只暂停不切歌。时长未知（0）时没法判断，按正常播完处理。
+      if (duration > Duration.zero &&
+          position < duration - const Duration(seconds: 2)) {
+        await pause();
+        return;
       }
+
+      // 用户本来就处于暂停状态（例如暂停后把进度拖到结尾、启动时恢复到
+      // 接近结尾的位置），不该自动换歌。
+      if (!isPlayingNotifier.value) return;
+
+      if (Loader.busy) {
+        await pause();
+        return;
+      }
+
+      if (needPause) {
+        await pause();
+      }
+
+      if (playModeNotifier.value == 2) {
+        // repeat
+        await load();
+        return;
+      }
+
+      // 一次进度都没走过就 completed：空文件 / 根本打不开。按失败计数，
+      // 免得一队坏文件被瞬间轮爆（正常播完 position 一定 > 0）。
+      if (position <= Duration.zero &&
+          _shouldStopAutoSkip('ended without playing')) {
+        return;
+      }
+
+      await skipToNext(); // automatically go to next song
     });
 
     _player.stream.position.listen((position) {
-      // 走出第一个进度就说明真的放出来了，撤掉卡死看门狗。
-      if (position > Duration.zero) _cancelStallWatchdog();
+      // 走出第一个进度就说明真的放出来了，撤掉卡死看门狗，并清掉连续失败计数。
+      if (position > Duration.zero) {
+        _skipsWithoutProgress = 0;
+        _cancelStallWatchdog();
+      }
       _updateCurrentLyricIndex(position);
     });
 
@@ -404,19 +435,56 @@ class MyAudioHandler extends BaseAudioHandler {
   /// 就当作网络问题导致这首一直放不出来，直接下一首。
   void _armStallWatchdog() {
     _stallTimer?.cancel();
-    _stallTimer = Timer(const Duration(seconds: 10), () {
-      _stallTimer = null;
-      // 用户主动暂停的不算卡死。
-      if (!isPlayingNotifier.value) return;
-      // 已经有播放进度，说明放出来了。
-      if (_player.state.position > Duration.zero) return;
-      skipToNext();
-    });
+    _stallTimer = null;
+    // 用户没在播时不需要看门狗。
+    if (!isPlayingNotifier.value) return;
+    _stallTimer = Timer(const Duration(seconds: 10), _onStallTimeout);
+  }
+
+  void _onStallTimeout() {
+    _stallTimer = null;
+
+    // 用户主动暂停的不算卡死。
+    if (!isPlayingNotifier.value) return;
+    // 已经有播放进度，说明放出来了。
+    if (_player.state.position > Duration.zero) return;
+
+    // 播放器还报告在缓冲，说明数据还在动，再给一轮时间。
+    if (_player.state.buffering && _stallRetries < _maxStallRetries) {
+      _stallRetries++;
+      _stallTimer = Timer(const Duration(seconds: 10), _onStallTimeout);
+      return;
+    }
+    _stallRetries = 0;
+
+    // 连续多首都放不出来（服务器挂了 / 直链全都过期）：停下来，
+    // 别再 10s 一首地把整个队列无声地轮一遍。
+    if (_shouldStopAutoSkip('failed to start')) return;
+
+    logger.output('player: stall, no progress after 10s, skip to next');
+    skipToNext();
+  }
+
+  /// 自动切歌的熔断：连续 [_maxSkipsWithoutProgress] 首都没走出播放进度，
+  /// 说明不是某一首的问题，继续往下跳只会把整个队列无声地轮一遍，
+  /// 而且网络恢复时会突然开始播。返回 true 表示已经熔断，不要再切歌。
+  bool _shouldStopAutoSkip(String reason) {
+    if (_skipsWithoutProgress < _maxSkipsWithoutProgress) {
+      _skipsWithoutProgress++;
+      return false;
+    }
+    logger.output(
+      'player: $_skipsWithoutProgress tracks in a row $reason, '
+      'stop auto skipping',
+    );
+    pause();
+    return true;
   }
 
   void _cancelStallWatchdog() {
     _stallTimer?.cancel();
     _stallTimer = null;
+    _stallRetries = 0;
   }
 
   void _prepare() {
@@ -614,10 +682,15 @@ class MyAudioHandler extends BaseAudioHandler {
     int playMode, {
     int? targetIndex,
   }) async {
+    // 队列整个被换掉后，上一份队列的换曲接管者（在线页）就失效了，
+    // 否则它会一直拦下本地队列的换曲。在线页设置完队列后会自己重新挂上。
+    playQueueSkipHandler = null;
     if (targetIndex != null) {
       currentIndex = targetIndex;
     } else {
-      currentIndex = playMode == 0 ? 0 : math.Random().nextInt(source.length);
+      currentIndex = playMode == 0 || source.isEmpty
+          ? 0
+          : math.Random().nextInt(source.length);
       playModeNotifier.value = playMode;
     }
     playQueue = List.from(source);
@@ -750,6 +823,9 @@ class MyAudioHandler extends BaseAudioHandler {
   }
 
   Future<void> sync() async {
+    // 扫库前先记住当前曲在队列里的位置：它被移出库时，换曲应该从它原来的
+    // 位置往后接，而不是回到队首。
+    final oldIndex = currentIndex;
     playQueue = getNewQueue(playQueue);
     _playQueueTmp = getNewQueue(_playQueueTmp);
     final currentSong = currentSongNotifier.value;
@@ -762,7 +838,10 @@ class MyAudioHandler extends BaseAudioHandler {
         updateServiceMediaItem(tmpCurrentSong);
       } else {
         currentSongNotifier.value = null;
-        currentIndex = -1;
+        // 让 skipToNext 落在「原来的下一首」上（队首则取 -1）。
+        currentIndex = oldIndex > 0
+            ? math.min(oldIndex, playQueue.length) - 1
+            : -1;
         if (playQueue.isNotEmpty) {
           await skipToNext();
         } else {
@@ -860,6 +939,14 @@ class MyAudioHandler extends BaseAudioHandler {
   Future<void> load({Duration? start}) async {
     // 换歌了，上一首的卡死看门狗作废。
     _cancelStallWatchdog();
+
+    // 队列为空或索引失效时直接返回，别让 playQueue[currentIndex] 抛 RangeError
+    // 把这次换歌卡在半途。
+    if (playQueue.isEmpty) return;
+    if (currentIndex < 0 || currentIndex >= playQueue.length) {
+      currentIndex = 0;
+    }
+
     // iOS only: request background execution time for the lyrics fetch,
     // stream ping, player open and buffering below.
     await _beginLoadGrace();
@@ -971,7 +1058,9 @@ class MyAudioHandler extends BaseAudioHandler {
           _armStallWatchdog();
         }
       } catch (error) {
-        stop();
+        // 等 stop 落定再往下走：否则后面的 updatePlaybackState 会拿旧的
+        // isPlaying 把界面刷成「正在播放」，实际已经没有声音。
+        await stop();
         logger.output("[${currentSong.title}] $error");
       }
 

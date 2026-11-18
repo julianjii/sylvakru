@@ -43,6 +43,22 @@ Future<void> openOnlineMusicPage(BuildContext context) {
   );
 }
 
+/// 在线页销毁后仍可能在播的那一首：播完 / 放不出来就停下，不要用
+/// （可能已过期的）直链原地重播。队列已经被换成别的歌时返回 false，
+/// 交回播放器自己的换曲逻辑。
+Future<bool> _stopAfterOnlineTrack(int delta) async {
+  final online = onlineNowPlaying.value;
+  // 在播的已经不是这次点播的在线曲（用户去播本地音乐了），交回默认逻辑。
+  if (online == null ||
+      playQueue.length != 1 ||
+      playQueue.first.id != online.id ||
+      currentSongNotifier.value?.id != online.id) {
+    return false;
+  }
+  await audioHandler.pause();
+  return true;
+}
+
 class OnlineMusicPage extends StatefulWidget {
   const OnlineMusicPage({super.key});
 
@@ -69,8 +85,10 @@ class _OnlineMusicPageState extends State<OnlineMusicPage> {
 
   @override
   void dispose() {
-    // 页面走了就不再接管换曲，回到播放器自己的队列逻辑。
-    playQueueSkipHandler = null;
+    // 页面走了，队列里只剩这一次点播的在线曲：播完 / 放不出来就停下，
+    // 别拿（可能已过期的）直链原地重播。换成别的队列时
+    // setPlayQueue 会把这个钩子清掉。
+    playQueueSkipHandler = _stopAfterOnlineTrack;
     _scrollController.dispose();
     _controller.dispose();
     // 页面走了就别把通知留在上一层界面上。
@@ -140,8 +158,8 @@ class _OnlineMusicPageState extends State<OnlineMusicPage> {
       playModeNotifier.value,
       delta,
     );
-    await _play(tracks[next]);
-    return true;
+    // 解析失败 / 正在解析别的曲目时交回默认逻辑，别把这次切歌吞掉。
+    return _play(tracks[next]);
   }
 
   /// 在线页只改播放模式，不动全局队列：`changePlayMode` 会洗牌 / 还原
@@ -152,8 +170,10 @@ class _OnlineMusicPageState extends State<OnlineMusicPage> {
     audioHandler.savePlayState();
   }
 
-  Future<void> _play(OnlineTrack track) async {
-    if (_resolvingId != null) return;
+  /// 返回是否真的切到了这首歌。false 表示这次请求被忽略（正在解析别的直链 /
+  /// 页面已经销毁 / 解析失败），调用方不能当作切歌成功。
+  Future<bool> _play(OnlineTrack track) async {
+    if (_resolvingId != null) return false;
     final quality = _controller.qualityFor(track);
     setState(() => _resolvingId = track.id);
     try {
@@ -162,7 +182,7 @@ class _OnlineMusicPageState extends State<OnlineMusicPage> {
       final url =
           cached?.path ??
           await onlineApiClient.resolveUrl(track: track, quality: quality);
-      if (!mounted) return;
+      if (!mounted) return false;
 
       final metadata = MyAudioMetadata(
         AudioMetadata(
@@ -198,11 +218,13 @@ class _OnlineMusicPageState extends State<OnlineMusicPage> {
       // 未命中缓存就边播边落盘，下次直接读本地文件；不阻塞播放。
       if (cached == null) unawaited(onlineCache.store(track, quality, url));
       logger.output('[online] play ${track.source} ${track.name} @$quality');
+      return true;
     } catch (e, stack) {
       logger.output('[online] play failed: $e\n$stack');
       _showMessage(
         '「${track.name}」播放失败：${e is OnlineApiException ? e.message : e}',
       );
+      return false;
     } finally {
       if (mounted) setState(() => _resolvingId = null);
     }
