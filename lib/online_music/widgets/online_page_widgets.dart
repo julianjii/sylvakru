@@ -4,6 +4,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:mymusic/base/app.dart';
 import 'package:mymusic/base/audio_handler.dart';
 import 'package:mymusic/online_music/online_download.dart';
 import 'package:mymusic/online_music/online_download_panel.dart';
@@ -938,6 +939,9 @@ class VolumeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 移动端不提供 App 内音量调节（固定满音量，用系统音量键）。
+    if (isMobile) return const SizedBox.shrink();
+
     return ValueListenableBuilder<double>(
       valueListenable: volumeNotifier,
       builder: (context, volume, _) {

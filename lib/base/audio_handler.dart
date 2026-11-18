@@ -42,6 +42,9 @@ bool _sessionActive = false;
 
 /// 是否允许和其他 App 一起出声。Android 靠不申请音频焦点实现（焦点一旦被抢，
 /// 对方的播放会被系统要求停掉）；iOS 靠 mixWithOthers 这个 category 选项。
+///
+/// 注意这个开关只影响「抢不抢焦点 / 用哪个 category」，不影响音频会话要不要
+/// 激活：iOS 上会话不激活就是完全没有声音。
 final mixWithOtherAppsNotifier = ValueNotifier(true);
 
 late MyAudioHandler audioHandler;
@@ -56,7 +59,13 @@ Future<bool> Function(int delta)? playQueueSkipHandler;
 final ValueNotifier<MyAudioMetadata?> currentSongNotifier = ValueNotifier(null);
 final isPlayingNotifier = ValueNotifier(false);
 final playModeNotifier = ValueNotifier(0);
-final volumeNotifier = ValueNotifier(0.3);
+
+/// 音量（0..1）。移动端的音量交给系统音量键，App 内固定满音量。
+final volumeNotifier = ValueNotifier<double>(isMobile ? 1.0 : 0.3);
+
+/// 静音前的音量，取消静音时恢复用。必须持久化：原来它只是喇叭按钮里的
+/// 内存变量，重启后为 null，静音状态下点喇叭图标就再也调不回来了。
+final lastNonZeroVolumeNotifier = ValueNotifier<double>(0.5);
 
 final autoPlayOnStartupNotifier = ValueNotifier(false);
 
@@ -152,9 +161,20 @@ Future<void> configureAudioSession() async {
 /// Android 要按需释放或重新申请音频焦点。
 Future<void> applyAudioMixing() async {
   await configureAudioSession();
-  if (mixWithOtherAppsNotifier.value) {
-    await setSessionActive(false);
-  } else if (isPlayingNotifier.value) {
+
+  if (Platform.isAndroid) {
+    if (mixWithOtherAppsNotifier.value) {
+      await setSessionActive(false);
+    } else if (isPlayingNotifier.value) {
+      await setSessionActive(true);
+    }
+    return;
+  }
+
+  // iOS/macOS：mixWithOthers 只是 category 选项，会话必须保持激活，
+  // 否则切完这个开关就变成「进度在走但没有声音」。改完 category 再激活一次。
+  if (isPlayingNotifier.value) {
+    _sessionActive = false;
     await setSessionActive(true);
   }
 }
@@ -163,8 +183,10 @@ Future<void> applyAudioMixing() async {
 /// 只有真正开始播放时才激活，暂停/停止时释放，交还音频焦点。
 Future<void> setSessionActive(bool active) async {
   if (_sessionActive == active) return;
-  // 允许和其他 App 一起出声时不申请焦点，否则对方会被迫停播。
-  if (active && mixWithOtherAppsNotifier.value) return;
+  // 只有 Android 用「不申请焦点」来实现和其他 App 一起出声（焦点被抢会让
+  // 对方的播放停掉）。iOS 上跳过 setActive 的后果是整个 App 没有声音，
+  // 所以这个门闩不能跨平台生效。
+  if (active && Platform.isAndroid && mixWithOtherAppsNotifier.value) return;
   try {
     await _session.setActive(active);
     _sessionActive = active;
@@ -609,10 +631,23 @@ class MyAudioHandler extends BaseAudioHandler {
     playModeNotifier.value = json['playMode'] as int? ?? 0;
     _tmpPlayMode = json['tmpPlayMode'] as int? ?? 0;
 
-    volumeNotifier.value = json['volume'] as double? ?? 0.3;
+    // 移动端固定满音量，不再跟随持久化的音量（否则会被上次的静音/低音量
+    // 一直影响，而且 App 内也没有地方可以调回来）。
+    // 用 num 再 toDouble：手改过 / 老版本写下的整数字面量会让 `as double`
+    // 抛 TypeError，把后面整段状态恢复（队列、均衡器、续播）一起中断。
+    volumeNotifier.value = isMobile
+        ? 1.0
+        : (json['volume'] as num?)?.toDouble() ?? 0.3;
 
-    if (!isMobile) {
-      setVolume(volumeNotifier.value);
+    setVolume(volumeNotifier.value);
+
+    // 当前处于静音状态时，恢复「静音前音量」，让喇叭按钮能直接调回来
+    // （setVolume 只会用当前音量覆盖它，所以放在后面）。
+    if (volumeNotifier.value <= 0) {
+      final lastVolume = (json['lastVolume'] as num?)?.toDouble();
+      if (lastVolume != null && lastVolume > 0 && lastVolume <= 1) {
+        lastNonZeroVolumeNotifier.value = lastVolume;
+      }
     }
   }
 
@@ -623,6 +658,7 @@ class MyAudioHandler extends BaseAudioHandler {
         'playMode': playModeNotifier.value,
         'tmpPlayMode': _tmpPlayMode,
         'volume': volumeNotifier.value,
+        'lastVolume': lastNonZeroVolumeNotifier.value,
       }),
     );
   }
@@ -1057,6 +1093,22 @@ class MyAudioHandler extends BaseAudioHandler {
           _playLastSyncTime = DateTime.now();
           _armStallWatchdog();
         }
+
+        // 自查一次音频输出：af/ao 初始化失败时 mpv 会不带音频继续跑时间轴
+        // （界面显示正常播放，实际没声音），而错误只会进 player error 流。
+        // 这里只留一条可诊断的日志，不改播放状态。
+        Future.delayed(const Duration(seconds: 3), () {
+          if (loadGeneration != _loadGeneration || !isPlayingNotifier.value) {
+            return;
+          }
+          if (_player.state.audioParams.format != null) return;
+          logger.output(
+            'player: no audio output after 3s '
+            '(position=${_player.state.position}, '
+            'volume=${_player.state.volume}, '
+            'buffering=${_player.state.buffering})',
+          );
+        });
       } catch (error) {
         // 等 stop 落定再往下走：否则后面的 updatePlaybackState 会拿旧的
         // isPlaying 把界面刷成「正在播放」，实际已经没有声音。
@@ -1199,6 +1251,14 @@ class MyAudioHandler extends BaseAudioHandler {
   }
 
   void setVolume(double volume) {
+    // 移动端不提供 App 内音量，固定满音量；系统音量由硬件键控制。
+    if (isMobile) volume = 1;
+
+    // 记下静音前的音量，供喇叭按钮取消静音 / 重启后恢复。
+    if (volume > 0 && volume <= 1) {
+      lastNonZeroVolumeNotifier.value = volume;
+    }
+
     double adjustedVolume = (math.log(volume * 9 + 1) / math.log(10)) * 100;
     _player.setVolume(adjustedVolume);
   }
@@ -1268,7 +1328,23 @@ class MyAudioHandler extends BaseAudioHandler {
       af = 'superequalizer=${activeParams.join(":")}';
     }
 
-    await (_player.platform as NativePlayer).setProperty('af', af);
+    final player = _player.platform as NativePlayer;
+    await player.setProperty('af', af);
+
+    // media_kit 丢弃了 mpv 的返回值，属性设置失败是静默的：内置 libmpv 没有
+    // 编进 superequalizer/lavfi 时，均衡器其实没生效，用户却以为开了。
+    // 回读校验一次（为空 = mpv 没接受这条滤镜链），至少留下可查的日志。
+    if (af.isNotEmpty) {
+      try {
+        final applied = await player.getProperty('af');
+        if (applied.isEmpty) {
+          logger.output('[equalizer] mpv rejected af, equalizer is off: $af');
+        }
+      } catch (e) {
+        logger.output('[equalizer] verify af failed: $e');
+      }
+    }
+
     saveEqualizerState();
   }
 }
